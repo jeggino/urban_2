@@ -105,7 +105,7 @@ st.dataframe(df_model_class)
 from sklearn import set_config
 from sklearn.utils import resample
 from sklearn.datasets import fetch_openml
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier, BaggingRegressor, ExtraTreesClassifier, GradientBoostingClassifier, VotingClassifier
 from sklearn.impute import SimpleImputer
 from sklearn.inspection import permutation_importance
 from sklearn.compose import ColumnTransformer
@@ -148,10 +148,22 @@ preprocessing = ColumnTransformer(
     [('cat', categorical_encoder, categorical_columns),
      ('num', numerical_pipe, numerical_columns)])
 
+
+dict_model = {"AdaBoost Classifier":AdaBoostClassifier(),
+            "Bagging Regressor":BaggingRegressor(),
+            "Extra Trees Classifier":ExtraTreesClassifier(),
+            "Gradient Boosting Classifier":GradientBoostingClassifier(),
+            "Random Forest Classifier":RandomForestClassifier(),
+            "Voting Classifier":VotingClassifier()
+             }
+
+MODEL = st.selectbox(label="Chose a model", options=list(dict_model), disabled=False, label_visibility="visible")
+
+
 # create the pipeline
 rf = Pipeline([
     ('preprocess', preprocessing),
-    ('classifier', RandomForestClassifier())
+    ('classifier', dict_model[MODEL])
 ])
 
 # fit the pipeline
