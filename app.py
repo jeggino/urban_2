@@ -12,31 +12,35 @@ st.set_page_config(
 )
 
 #----------------------------------------------------------------
-@st.cache_data
-def get_data():
-  url = "https://maps.amsterdam.nl/open_geodata/geojson_lnglat.php?KAARTLAAG=GEBIEDEN22&THEMA=gebiedsindeling"
-  gdf_districts = gpd.read_file(url)
+# @st.cache_data
+# def get_data():
+#   url = "https://maps.amsterdam.nl/open_geodata/geojson_lnglat.php?KAARTLAAG=GEBIEDEN22&THEMA=gebiedsindeling"
+#   gdf_districts = gpd.read_file(url)
   
-  # import the raw data
-  df_raw = pd.read_csv('HousingPrices-Amsterdam-August-2021.csv').iloc[:,1:]
+#   # import the raw data
+#   df_raw = pd.read_csv('HousingPrices-Amsterdam-August-2021.csv').iloc[:,1:]
   
-  # create a dataset that conteins only the points located inside the polygons
-  
-  
-  #zip the coordinates into a point object and convert to a GeoData Frame
-  geometry = [Point(xy) for xy in zip(df_raw.Lon, df_raw.Lat)]
-  geo_df = gpd.GeoDataFrame(df_raw, geometry=geometry,crs="EPSG:4326")
-  
-  # create a dataset
-  gdf_areas_point = gpd.sjoin(geo_df,gdf_districts,  how='inner',op= 'intersects')\
-  [['Address', 'Zip', 'Price', 'Area', 'Room', 'Lon', 'Lat', 'geometry','Gebied']]
+#   # create a dataset that conteins only the points located inside the polygons
   
   
-  # Build the classification model
-  # create the dataset
-  df_model = gdf_areas_point[['Price', 'Area', 'Room','Gebied']]
+#   #zip the coordinates into a point object and convert to a GeoData Frame
+#   geometry = [Point(xy) for xy in zip(df_raw.Lon, df_raw.Lat)]
+#   geo_df = gpd.GeoDataFrame(df_raw, geometry=geometry,crs="EPSG:4326")
+  
+#   # create a dataset
+#   gdf_areas_point = gpd.sjoin(geo_df,gdf_districts,  how='inner',op= 'intersects')\
+#   [['Address', 'Zip', 'Price', 'Area', 'Room', 'Lon', 'Lat', 'geometry','Gebied']]
+  
+  
+#   # Build the classification model
+#   # create the dataset
+#   df_model = gdf_areas_point[['Price', 'Area', 'Room','Gebied']]
 
-  return gdf_areas_point, df_model
+#   return gdf_areas_point, df_model
 
-st.dataframe(get_data()[1])
-st.dataframe(get_data()[1].describe())
+url = "https://maps.amsterdam.nl/open_geodata/geojson_lnglat.php?KAARTLAAG=GEBIEDEN22&THEMA=gebiedsindeling"
+gdf_districts = gpd.read_file(url)
+
+st.dataframe(gdf_districts.drop("geometry",axis=1))
+# st.dataframe(get_data()[1])
+# st.dataframe(get_data()[1].describe())
