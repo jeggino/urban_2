@@ -6,3 +6,4 @@ seaborn
 matplotlib
 altair
 scikit-learn
+kneed
