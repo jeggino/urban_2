@@ -251,9 +251,9 @@ Room = base.mark_bar().encode(
 )
 
 #--------------------
-cm = sns.light_palette("green", as_cmap=True)
-cluster_mean = df_segmentation.groupby('Clusters')[['Price','Area']].mean()
-st.dataframe(cluster_mean.style.background_gradient(cmap=cm).set_precision(1))
+# cm = sns.light_palette("green", as_cmap=True)
+# cluster_mean = df_segmentation.groupby('Clusters')[['Price','Area']].mean()
+# st.dataframe(cluster_mean.style.background_gradient(cmap=cm).set_precision(1))
 
 
 #--------------------
