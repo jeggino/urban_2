@@ -105,7 +105,7 @@ st.dataframe(df_model_class)
 from sklearn import set_config
 from sklearn.utils import resample
 from sklearn.datasets import fetch_openml
-from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier, BaggingRegressor, ExtraTreesClassifier, GradientBoostingClassifier#, VotingClassifier
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier, ExtraTreesClassifier, GradientBoostingClassifier
 from sklearn.impute import SimpleImputer
 from sklearn.inspection import permutation_importance
 from sklearn.compose import ColumnTransformer
@@ -150,11 +150,9 @@ preprocessing = ColumnTransformer(
 
 
 dict_model = {"Ada Boost Classifier":AdaBoostClassifier(),
-            "Bagging Regressor":BaggingRegressor(),
             "Extra Trees Classifier":ExtraTreesClassifier(),
             "Gradient Boosting Classifier":GradientBoostingClassifier(),
             "Random Forest Classifier":RandomForestClassifier(),
-            # "Voting Classifier":VotingClassifier()
              }
 
 MODEL = st.selectbox(label="Chose a model", options=list(dict_model), disabled=False, label_visibility="visible")
