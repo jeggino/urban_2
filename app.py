@@ -114,6 +114,52 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder,StandardScaler,LabelEncoder
 
 
+low = df_model_class[df_model_class.price_class == 'low']
+high = df_model_class[df_model_class.price_class == 'high']
+high_oversampled = resample(high, replace=True, n_samples=len(low))
+low_subsampled = resample(low, replace=False, n_samples=len(high))
+oversampled = pd.concat([low, high_oversampled])
+subsampled = pd.concat([high, low_subsampled])
+
+df_model_2 = oversampled.iloc[:,1:]
+
+X = df_model_2.iloc[:,:-1]
+le = LabelEncoder()
+y = le.fit_transform(df_model_2.price_class)
+
+categorical_columns = df_model_2.select_dtypes('object').columns.tolist()
+numerical_columns = df_model_2.select_dtypes('int64').columns.tolist()
+
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, stratify=y,)
+
+# encode the categories
+categorical_encoder = OneHotEncoder(handle_unknown='ignore')
+
+# fill NA values with mean and standardize.
+numerical_pipe = Pipeline([
+    ('imputer', SimpleImputer(strategy='mean')),
+     ('standardizer' , StandardScaler())
+])
+
+# preprocessing
+preprocessing = ColumnTransformer(
+    [('cat', categorical_encoder, categorical_columns),
+     ('num', numerical_pipe, numerical_columns)])
+
+# create the pipeline
+rf = Pipeline([
+    ('preprocess', preprocessing),
+    ('classifier', RandomForestClassifier())
+])
+
+# fit the pipeline
+rf.fit(X_train, y_train)
+
+st.write("RF train accuracy: %0.3f" % rf.score(X_train, y_train))
+
+
 
 
 
