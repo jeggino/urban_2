@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import geopandas as gpd
 from shapely.geometry import Point
+import seaborn as sns
+
 
 
 
@@ -46,12 +48,8 @@ st.dataframe(df_model.describe())
 
 
 #----------------------------------------------------------------
-import seaborn as sns
-import matplotlib.pyplot as plt
 
-# fig = plt.figure(figsize=(10, 4))    
 fig = sns.pairplot(df_model[['Price', 'Area', 'Room']], diag_kind='auto',corner=True)
-# sns.set_theme(style="white")
 st.pyplot(fig)
 
 
@@ -63,4 +61,9 @@ room  = df_model["Room"].quantile(0.8)
 df_model_class = df_model[(df_model["Area"]<=area)&(df_model["Price"]<=price)&(df_model["Room"]<=room)]
 
 st.dataframe(df_model_class.describe())
+
+#----------------------------------------------------------------
+fig_2 = sns.pairplot(df_model_class[['Price', 'Area', 'Room']], diag_kind='auto',corner=True)
+sns.set_theme(style="white")
+st.pyplot(fig_2)
 
