@@ -184,9 +184,10 @@ confusion_matrix = pd.crosstab(le.inverse_transform(y_test),
                                normalize='index')
 
 st.dataframe(confusion_matrix)
+st.write("RF test accuracy: %0.3f" % rf.score(X_test, y_test)) # title with fontsize 20
 chart = sns.heatmap(confusion_matrix, annot=True,cbar=False,square=True,fmt='.2%', cmap='PuBu',xticklabels=True, yticklabels=True)
 
-st.write("RF test accuracy: %0.3f" % rf.score(X_test, y_test)) # title with fontsize 20
+
 
 
 
