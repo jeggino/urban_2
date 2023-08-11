@@ -174,7 +174,7 @@ st.write(f"{MODEL} train accuracy: %0.3f" % rf.score(X_train, y_train))
 
 #Get the confusion matrix
 from sklearn.metrics import confusion_matrix
-import matplotlib.pyplot as plt # for data visualization
+# import matplotlib.pyplot as plt # for data visualization
 import seaborn as sns
 y_true = le.inverse_transform(y_test)
 y_pred = le.inverse_transform(rf.predict(X_test))
@@ -182,6 +182,8 @@ confusion_matrix = pd.crosstab(le.inverse_transform(y_test),
                                le.inverse_transform(rf.predict(X_test)),
                                rownames=['Actual'], colnames=['Predicted'],
                                normalize='index')
+
+st.dataframe(confusion_matrix)
 chart = sns.heatmap(confusion_matrix, annot=True,cbar=False,square=True,fmt='.2%', cmap='PuBu',xticklabels=True, yticklabels=True)
 
 st.write("RF test accuracy: %0.3f" % rf.score(X_test, y_test)) # title with fontsize 20
