@@ -51,7 +51,7 @@ import matplotlib.pyplot as plt
 
 fig = plt.figure(figsize=(10, 4))    
 sns.pairplot(df_model[['Price', 'Area', 'Room']], diag_kind='auto',corner=True)
-sns.set_theme(style="white")
+# sns.set_theme(style="white")
 st.pyplot(fig)
 
 
