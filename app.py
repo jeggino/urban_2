@@ -78,4 +78,6 @@ df_model_class['price_class'] = pd.cut(df_model_class.Price,
 
 
 st.dataframe(df_model_class)
+st.dataframe(df_model_class.groupby('price_class').mean().round(2))
+
 
