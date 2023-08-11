@@ -265,6 +265,7 @@ st.altair_chart(altair_chart=Room, use_container_width=False, theme="streamlit")
 import folium
 from folium import Figure
 from folium.plugins import Fullscreen
+from streamlit_folium import st_folium
 
 
 
@@ -353,7 +354,8 @@ m.add_child(folium.LayerControl(collapsed=True))
 #fullscreen
 folium.plugins.Fullscreen().add_to(m)
 
-m
+
+st_data = st_folium(m, width=725)
 
 
 
