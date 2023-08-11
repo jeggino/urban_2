@@ -4,3 +4,5 @@ geopandas
 shapely
 seaborn
 matplotlib
+sklearn 
+altair
