@@ -13,7 +13,7 @@ st.set_page_config(
 
 #----------------------------------------------------------------
 @st.cache_data
-def get_data()
+def get_data():
   url = "https://maps.amsterdam.nl/open_geodata/geojson_lnglat.php?KAARTLAAG=GEBIEDEN22&THEMA=gebiedsindeling"
   gdf_districts = gpd.read_file(url)
   
