@@ -38,9 +38,15 @@ def get_data():
 
   return gdf_areas_point, df_model
 
-# url = "https://maps.amsterdam.nl/open_geodata/geojson_lnglat.php?KAARTLAAG=GEBIEDEN22&THEMA=gebiedsindeling"
-# gdf_districts = gpd.read_file(url)
-
-# st.dataframe(gdf_districts.drop("geometry",axis=1))
 st.dataframe(get_data()[1])
 st.dataframe(get_data()[1].describe())
+
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+fig = plt.figure(figsize=(10, 4))    
+sns.pairplot(df_model[['Price', 'Area', 'Room']], diag_kind='auto',corner=True)
+sns.set_theme(style="white")
+st.pyplot(fig)
+
