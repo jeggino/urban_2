@@ -79,29 +79,41 @@ df_model_class['price_class'] = pd.cut(df_model_class.Price,
 
 st.dataframe(df_model_class)
 
-st.datframe(df_model_class.info())
-#----------------------------------------------------------------
-df_3 = df_model_class.groupby(['price_class']).mean()#.round(2)
-st.dataframe(df_3)
+
+# #----------------------------------------------------------------
+# df_3 = df_model_class.groupby(['price_class']).mean()#.round(2)
+# st.dataframe(df_3)
+
+
+# #----------------------------------------------------------------
+# fig_3 = df_model_class.price_class.value_counts().plot(kind='bar')
+# st.pyplot(fig_3)
+
+
+# #----------------------------------------------------------------
+# df_4 = df_model_class.groupby('Gebied').mean().round() \
+# .sort_values('Price', ascending=False)
+# st.dataframe(df_4)
+
+
+# #----------------------------------------------------------------
+# fig_4 = df_model_class.Gebied.value_counts().plot(kind='bar')
+# st.pyplot(fig_4)
 
 
 #----------------------------------------------------------------
-fig_3 = df_model_class.price_class.value_counts().plot(kind='bar')
-st.pyplot(fig_3)
+from sklearn import set_config
+from sklearn.utils import resample
+from sklearn.datasets import fetch_openml
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.impute import SimpleImputer
+from sklearn.inspection import permutation_importance
+from sklearn.compose import ColumnTransformer
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder,StandardScaler,LabelEncoder
 
 
-#----------------------------------------------------------------
-df_4 = df_model_class.groupby('Gebied').mean().round() \
-.sort_values('Price', ascending=False)
-st.dataframe(df_4)
-
-
-#----------------------------------------------------------------
-fig_4 = df_model_class.Gebied.value_counts().plot(kind='bar')
-st.pyplot(fig_4)
-
-
-#----------------------------------------------------------------
 
 
 
