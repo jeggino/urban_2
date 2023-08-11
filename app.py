@@ -81,7 +81,7 @@ st.dataframe(df_model_class)
 
 
 #----------------------------------------------------------------
-df_3 = df_model_class.groupby('price_class').mean()#.round(2)
+df_3 = df_model_class.groupby(['price_class']).mean()#.round(2)
 st.dataframe(df_3)
 
 
