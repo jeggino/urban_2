@@ -223,6 +223,44 @@ df_segmentation['Clusters'] = kmeans.labels_ + 1
 st.dataframe(df_segmentation['Clusters'].value_counts().to_frame())
 
 
+#------------------
+import altair as alt
+
+source = df_segmentation
+
+base = alt.Chart(source).properties(width=80,height=300)
+
+Price = base.mark_boxplot().encode(
+    x=alt.X('Clusters:N',title=None,axis=alt.Axis(values=[0], ticks=True, grid=False, labels=True)),
+    y=alt.Y('Price:Q', type='quantitative',axis=alt.Axis(ticks=True, grid=False, labels=True)),
+    color='Clusters:N'
+)
+
+Area = base.mark_boxplot().encode(
+    x=alt.X('Clusters:N',title=None,axis=alt.Axis(values=[0], ticks=True, grid=False, labels=True)),
+    y=alt.Y('Area:Q', type='quantitative',axis=alt.Axis(ticks=True, grid=False, labels=True)),
+    color='Clusters:N'
+)
+
+
+Room = base.mark_bar().encode(
+    column='Clusters:N',
+    x=alt.X('Room:O'),
+    y=alt.Y('count()'),
+    color='Clusters:N'
+)
+
+#--------------------
+cm = sns.light_palette("green", as_cmap=True)
+cluster_mean = df_segmentation.groupby('Clusters')[['Price','Area']].mean()
+st.dataframe(cluster_mean.style.background_gradient(cmap=cm).set_precision(1))
+
+
+#--------------------
+st.altair_chart(altair_chart=alt.hconcat(Price,Area), use_container_width=False, theme="streamlit")
+
+
+
 
 
 
