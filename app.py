@@ -67,3 +67,15 @@ fig_2 = sns.pairplot(df_model_class[['Price', 'Area', 'Room']], diag_kind='auto'
 sns.set_theme(style="white")
 st.pyplot(fig_2)
 
+
+#----------------------------------------------------------------
+df_model_class['price_class'] = pd.cut(df_model_class.Price,
+                                 bins=[df_model_class["Price"].min(),
+                                       df_model_class["Price"].mean(),
+                                       df_model_class["Price"].max()],
+                                 include_lowest=True,
+                                 labels=['low','high'])
+
+
+st.dataframe(df_model_class)
+
