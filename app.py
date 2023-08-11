@@ -169,7 +169,7 @@ rf = Pipeline([
 # fit the pipeline
 rf.fit(X_train, y_train)
 
-st.write("RF train accuracy: %0.3f" % rf.score(X_train, y_train))
+st.write(f"{MODEL} train accuracy: %0.3f" % rf.score(X_train, y_train))
 
 
 #Get the confusion matrix
