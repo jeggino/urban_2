@@ -258,6 +258,7 @@ Room = base.mark_bar().encode(
 
 #--------------------
 st.altair_chart(altair_chart=alt.hconcat(Price,Area), use_container_width=False, theme="streamlit")
+st.altair_chart(altair_chart=Room, use_container_width=False, theme="streamlit")
 
 
 
