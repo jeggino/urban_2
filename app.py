@@ -85,9 +85,9 @@ df_3 = df_model_class.groupby('price_class').mean().round(2)
 st.dataframe(df_3)
 
 
-# #----------------------------------------------------------------
-# fig_3 = df_model_class.price_class.value_counts().plot(kind='bar')
-# st.pyplot(fig_3)
+#----------------------------------------------------------------
+fig_3 = df_model_class.price_class.value_counts().plot(kind='bar')
+st.pyplot(fig_3)
 
 
 #----------------------------------------------------------------
