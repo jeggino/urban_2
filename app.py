@@ -38,10 +38,14 @@ def get_data():
 
   return gdf_areas_point, df_model
 
-st.dataframe(get_data()[1])
-st.dataframe(get_data()[1].describe())
+df_model = get_data()[1]
+gdf_areas_point = get_data()[0]
+#----------------------------------------------------------------
+st.dataframe(df_model)
+st.dataframe(df_model.describe())
 
 
+#----------------------------------------------------------------
 import seaborn as sns
 import matplotlib.pyplot as plt
 
@@ -49,4 +53,14 @@ fig = plt.figure(figsize=(10, 4))
 sns.pairplot(df_model[['Price', 'Area', 'Room']], diag_kind='auto',corner=True)
 sns.set_theme(style="white")
 st.pyplot(fig)
+
+
+#----------------------------------------------------------------
+area  = df_model["Area"].quantile(0.8)
+price  = df_model["Price"].quantile(0.8)
+room  = df_model["Room"].quantile(0.8)
+
+df_model_class = df_model[(df_model["Area"]<=area)&(df_model["Price"]<=price)&(df_model["Room"]<=room)]
+
+st.dataframe(df_model_class.describe())
 
