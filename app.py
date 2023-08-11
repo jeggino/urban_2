@@ -170,12 +170,10 @@ rf = Pipeline([
 rf.fit(X_train, y_train)
 
 st.write(f"{MODEL} train accuracy: %0.3f" % rf.score(X_train, y_train))
+st.write(f"{MODEL} test accuracy: %0.3f" % rf.score(X_test, y_test))
 
 
-#Get the confusion matrix
-from sklearn.metrics import confusion_matrix
-# import matplotlib.pyplot as plt # for data visualization
-import seaborn as sns
+
 y_true = le.inverse_transform(y_test)
 y_pred = le.inverse_transform(rf.predict(X_test))
 confusion_matrix = pd.crosstab(le.inverse_transform(y_test),
@@ -184,14 +182,42 @@ confusion_matrix = pd.crosstab(le.inverse_transform(y_test),
                                normalize='index')
 
 st.dataframe(confusion_matrix)
-st.write("RF test accuracy: %0.3f" % rf.score(X_test, y_test)) # title with fontsize 20
-chart = sns.heatmap(confusion_matrix, annot=True,cbar=False,square=True,fmt='.2%', cmap='PuBu',xticklabels=True, yticklabels=True)
 
 
+import sklearn.cluster as cluster
+from kneed import KneeLocator
+from sklearn.preprocessing import MinMaxScaler
 
+# Standardizing the features
+df_segmentation = df_model_class.iloc[:,:3]
+X = MinMaxScaler().fit_transform(df_segmentation)
 
+kmeans_kwargs = {
+    "init": "k-means++",
+    "n_init": 10,
+    "max_iter": 300,
+    "random_state": 42,
+}
 
-st.pyplot(fig=chart, clear_figure=None, use_container_width=True)
+# A list holds the SSE values for each k
+sse = []
+for k in range(1, 11):
+    kmeans = cluster.KMeans(n_clusters=k, **kmeans_kwargs)
+    kmeans.fit(X)
+    sse.append(kmeans.inertia_)
+    
+kl = KneeLocator(
+    range(1, 11), sse, curve="convex", direction="decreasing"
+)
+
+print(f'The elbow is reached with {kl.elbow} clusters')
+plt.style.use("fivethirtyeight")
+plt.plot(range(1, 11), sse)
+plt.xticks(range(1, 11))
+plt.xlabel("Number of Clusters")
+plt.ylabel("SSE")
+plt.show()
+
 
 
 
