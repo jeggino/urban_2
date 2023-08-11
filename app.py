@@ -210,13 +210,8 @@ kl = KneeLocator(
     range(1, 11), sse, curve="convex", direction="decreasing"
 )
 
-print(f'The elbow is reached with {kl.elbow} clusters')
-plt.style.use("fivethirtyeight")
-plt.plot(range(1, 11), sse)
-plt.xticks(range(1, 11))
-plt.xlabel("Number of Clusters")
-plt.ylabel("SSE")
-plt.show()
+st.write(f'The elbow is reached with {kl.elbow} clusters')
+
 
 
 
