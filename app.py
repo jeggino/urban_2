@@ -149,7 +149,7 @@ preprocessing = ColumnTransformer(
      ('num', numerical_pipe, numerical_columns)])
 
 
-dict_model = {"AdaBoost Classifier":AdaBoostClassifier(),
+dict_model = {"Ada Boost Classifier":AdaBoostClassifier(),
             "Bagging Regressor":BaggingRegressor(),
             "Extra Trees Classifier":ExtraTreesClassifier(),
             "Gradient Boosting Classifier":GradientBoostingClassifier(),
