@@ -59,8 +59,8 @@ price  = df_model["Price"].quantile(0.8)
 room  = df_model["Room"].quantile(0.8)
 
 df_model_class = df_model[(df_model["Area"]<=area)&(df_model["Price"]<=price)&(df_model["Room"]<=room)]
-
 st.dataframe(df_model_class.describe())
+
 
 #----------------------------------------------------------------
 fig_2 = sns.pairplot(df_model_class[['Price', 'Area', 'Room']], diag_kind='auto',corner=True)
@@ -81,7 +81,7 @@ st.dataframe(df_model_class)
 
 
 #----------------------------------------------------------------
-df_3 = df_model_class.groupby('price_class').mean().round(2)
+df_3 = df_model_class.groupby('price_class').mean()#.round(2)
 st.dataframe(df_3)
 
 
@@ -95,9 +95,11 @@ df_4 = df_model_class.groupby('Gebied').mean().round() \
 .sort_values('Price', ascending=False)
 st.dataframe(df_4)
 
+
 #----------------------------------------------------------------
 fig_4 = df_model_class.Gebied.value_counts().plot(kind='bar')
 st.pyplot(fig_4)
+
 
 #----------------------------------------------------------------
 
