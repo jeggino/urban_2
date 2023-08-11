@@ -7,3 +7,5 @@ matplotlib
 altair
 scikit-learn
 kneed
+folium
+streamlit-folium
