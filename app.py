@@ -218,7 +218,7 @@ st.dataframe(confusion_matrix)
 
 
 #----------------------------------------------------------------
-elif selecter == "Classification":
+elif selecter == "Segmentation":
 
 
     #----------------------------------------------------------------
