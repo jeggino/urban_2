@@ -259,9 +259,10 @@ elif selecter == "Segmentation":
     
     df_segmentation['Clusters'] = kmeans.labels_ + 1 
     
-    st.dataframe(df_segmentation['Clusters'].value_counts().to_frame())
+    st.sidebar.dataframe(df_segmentation['Clusters'].value_counts().to_frame())
     
-    
+    #---------------------------
+    tab_3a,tab_3b = st.tabs([":bar_chart:", "📌"])
     #------------------
     import altair as alt
     
@@ -296,8 +297,8 @@ elif selecter == "Segmentation":
     
     
     #--------------------
-    st.altair_chart(altair_chart=alt.hconcat(Price,Area), use_container_width=False, theme="streamlit")
-    st.altair_chart(altair_chart=Room, use_container_width=False, theme="streamlit")
+    tab_3a.altair_chart(altair_chart=alt.hconcat(Price,Area), use_container_width=False, theme="streamlit")
+    tab_3a.altair_chart(altair_chart=Room, use_container_width=False, theme="streamlit")
     
     
     #---------------------
@@ -393,8 +394,8 @@ elif selecter == "Segmentation":
     #fullscreen
     folium.plugins.Fullscreen().add_to(m)
     
-    
-    st_data = st_folium(m, width=725)
+    with tab_3b:
+        st_data = st_folium(m, width=725)
 
 
 
