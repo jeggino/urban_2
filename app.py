@@ -49,27 +49,31 @@ st.title("Classification model")
 
 
 #----------------------------------------------------------------
-with st.expander("With outlines"):
-    left_1,right_1 = st.columns([1,3])
-    
-    fig = sns.pairplot(df_model[['Price', 'Area', 'Room']], diag_kind='auto',corner=True)
+left_1,right_1 = st.columns(spec=2, gap="medium")
 
-    left_1.dataframe(df_model.describe())
-    right_1.pyplot(fig)
+with left_1:
+    with st.expander("With outlines"):
+        tab_1a,tab_1b = st.tab([":bar_chart:", ":bookmark_tabs:"])
+        
+        fig = sns.pairplot(df_model[['Price', 'Area', 'Room']], diag_kind='auto',corner=True)
+    
+        tab_1a.dataframe(df_model.describe())
+        tab_1b.pyplot(fig)
 
 
-with st.expander("Without outlines"):
-    left_2,right_2 = st.columns([1,3])
-    
-    area  = df_model["Area"].quantile(0.8)
-    price  = df_model["Price"].quantile(0.8)
-    room  = df_model["Room"].quantile(0.8)
-    df_model_class = df_model[(df_model["Area"]<=area)&(df_model["Price"]<=price)&(df_model["Room"]<=room)]
-    
-    fig_2 = sns.pairplot(df_model_class[['Price', 'Area', 'Room']], diag_kind='auto',corner=True)
-    
-    left_2.dataframe(df_model_class.describe())
-    right_2.pyplot(fig_2)
+with right_1:
+    with st.expander("Without outlines"):
+        tab_2a,tab_2b = st.tab([":bar_chart:", ":bookmark_tabs:"])
+        
+        area  = df_model["Area"].quantile(0.8)
+        price  = df_model["Price"].quantile(0.8)
+        room  = df_model["Room"].quantile(0.8)
+        df_model_class = df_model[(df_model["Area"]<=area)&(df_model["Price"]<=price)&(df_model["Room"]<=room)]
+        
+        fig_2 = sns.pairplot(df_model_class[['Price', 'Area', 'Room']], diag_kind='auto',corner=True)
+        
+        tab_2a.dataframe(df_model_class.describe())
+        tab_2b.pyplot(fig_2)
 
 
 
