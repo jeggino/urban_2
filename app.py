@@ -83,28 +83,9 @@ with st.expander("Without outlines"):
 
 
 
-#----------------------------------------------------------------
-area  = df_model["Area"].quantile(0.8)
-price  = df_model["Price"].quantile(0.8)
-room  = df_model["Room"].quantile(0.8)
-
-df_model_class = df_model[(df_model["Area"]<=area)&(df_model["Price"]<=price)&(df_model["Room"]<=room)]
-
-
 
 #----------------------------------------------------------------
-fig_2 = sns.pairplot(df_model_class[['Price', 'Area', 'Room']], diag_kind='auto',corner=True)
-st.pyplot(fig_2)
-st.dataframe(df_model_class.describe())
 
-
-#----------------------------------------------------------------
-df_model_class['price_class'] = pd.cut(df_model_class.Price,
-                                 bins=[df_model_class["Price"].min(),
-                                       df_model_class["Price"].mean(),
-                                       df_model_class["Price"].max()],
-                                 include_lowest=True,
-                                 labels=['low','high'])
 
 
 
@@ -128,6 +109,8 @@ df_model_class['price_class'] = pd.cut(df_model_class.Price,
 # fig_4 = df_model_class.Gebied.value_counts().plot(kind='bar')
 # st.pyplot(fig_4)
 
+#----------------------------------------------------------------
+st.title("Model results")
 
 #----------------------------------------------------------------
 from sklearn import set_config
@@ -140,6 +123,14 @@ from sklearn.compose import ColumnTransformer
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder,StandardScaler,LabelEncoder
+
+
+df_model_class['price_class'] = pd.cut(df_model_class.Price,
+                                 bins=[df_model_class["Price"].min(),
+                                       df_model_class["Price"].mean(),
+                                       df_model_class["Price"].max()],
+                                 include_lowest=True,
+                                 labels=['low','high'])
 
 
 low = df_model_class[df_model_class.price_class == 'low']
@@ -210,6 +201,10 @@ confusion_matrix = pd.crosstab(le.inverse_transform(y_test),
 st.dataframe(confusion_matrix)
 
 
+#----------------------------------------------------------------
+st.title("Segmentation")
+
+#----------------------------------------------------------------
 import sklearn.cluster as cluster
 from kneed import KneeLocator
 from sklearn.preprocessing import MinMaxScaler
