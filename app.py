@@ -53,7 +53,7 @@ left_1,right_1 = st.columns(spec=2, gap="medium")
 
 with left_1:
     with st.expander("With outlines"):
-        tab_1a,tab_1b = st.tab([":bar_chart:", ":bookmark_tabs:"])
+        tab_1a,tab_1b = st.tabs([":bar_chart:", ":bookmark_tabs:"])
         
         fig = sns.pairplot(df_model[['Price', 'Area', 'Room']], diag_kind='auto',corner=True)
     
@@ -63,7 +63,7 @@ with left_1:
 
 with right_1:
     with st.expander("Without outlines"):
-        tab_2a,tab_2b = st.tab([":bar_chart:", ":bookmark_tabs:"])
+        tab_2a,tab_2b = st.tabs([":bar_chart:", ":bookmark_tabs:"])
         
         area  = df_model["Area"].quantile(0.8)
         price  = df_model["Price"].quantile(0.8)
