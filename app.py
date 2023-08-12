@@ -42,14 +42,45 @@ def get_data():
 
 df_model = get_data()[1]
 gdf_areas_point = get_data()[0]
-#----------------------------------------------------------------
-st.dataframe(df_model.describe())
 
 
 #----------------------------------------------------------------
+st.title("Classification model")
 
-fig = sns.pairplot(df_model[['Price', 'Area', 'Room']], diag_kind='auto',corner=True)
-st.pyplot(fig)
+
+#----------------------------------------------------------------
+with st.expander("With outlines"):
+    left_1,right_1 = st.columns([1,3])
+    
+    fig = sns.pairplot(df_model[['Price', 'Area', 'Room']], diag_kind='auto',corner=True)
+
+    left_1.dataframe(df_model.describe())
+    right_1.pyplot(fig)
+
+
+with st.expander("Without outlines"):
+    left_2,right_2 = st.columns([1,3])
+    
+    area  = df_model["Area"].quantile(0.8)
+    price  = df_model["Price"].quantile(0.8)
+    room  = df_model["Room"].quantile(0.8)
+    df_model_class = df_model[(df_model["Area"]<=area)&(df_model["Price"]<=price)&(df_model["Room"]<=room)]
+    
+    fig_2 = sns.pairplot(df_model_class[['Price', 'Area', 'Room']], diag_kind='auto',corner=True)
+    
+    left_2.dataframe(df_model_class.describe())
+    right_2.pyplot(fig_2)
+
+
+
+
+#----------------------------------------------------------------
+
+
+
+#----------------------------------------------------------------
+
+
 
 
 #----------------------------------------------------------------
