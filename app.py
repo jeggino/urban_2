@@ -13,7 +13,7 @@ st.set_page_config(
     layout="wide",
 )
 
-selecter = option_menu(None, ["Infos", "Classification", "Segmentation",], icons=['bi-info-circle-fill', 'bi-calculator-fill', "bi-houses-fill"], 
+selecter = option_menu(None, ["Infos", "Classification", "Segmentation",], icons=['bi-info-circle-fill', 'bi-diagram-3-fill', "bi-houses-fill"], 
                         menu_icon="cast", default_index=0, orientation="horizontal")
 
 #----------------------------------------------------------------
@@ -52,10 +52,12 @@ if selecter == "Infos":
     st.title("This is what it is")
     st.stop()
 
-#----------------------------------------------------------------
+
 
     
-    
+
+
+SAMPLER = st.sidebar.slider(label="Chose the sample", min_value=0.5, max_value=1, value=0.8, step=0.1, disabled=False, label_visibility="visible")
 #----------------------------------------------------------------
 left_1,right_1 = st.columns(spec=2, gap="medium")
 
@@ -73,9 +75,9 @@ with right_1:
     with st.expander("Without outlines"):
         tab_2a,tab_2b = st.tabs([":bar_chart:", ":bookmark_tabs:"])
         
-        area  = df_model["Area"].quantile(0.8)
-        price  = df_model["Price"].quantile(0.8)
-        room  = df_model["Room"].quantile(0.8)
+        area  = df_model["Area"].quantile(SAMPLER)
+        price  = df_model["Price"].quantile(SAMPLER)
+        room  = df_model["Room"].quantile(SAMPLER)
         df_model_class = df_model[(df_model["Area"]<=area)&(df_model["Price"]<=price)&(df_model["Room"]<=room)]
         
         fig_2 = sns.pairplot(df_model_class[['Price', 'Area', 'Room']], diag_kind='auto',corner=True)
