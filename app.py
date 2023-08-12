@@ -50,39 +50,38 @@ gdf_areas_point = get_data()[0]
 #----------------------------------------------------------------
 if selecter == "Infos":
     st.title("This is what it is")
+    st.stop()
 
 #----------------------------------------------------------------
-elif selecter == "Classification":
 
-    st.title("Classification model")
     
     
-    #----------------------------------------------------------------
-    left_1,right_1 = st.columns(spec=2, gap="medium")
-    
-    with left_1:
-        with st.expander("With outlines"):
-            tab_1a,tab_1b = st.tabs([":bar_chart:", ":bookmark_tabs:"])
-            
-            fig = sns.pairplot(df_model[['Price', 'Area', 'Room']], diag_kind='auto',corner=True)
+#----------------------------------------------------------------
+left_1,right_1 = st.columns(spec=2, gap="medium")
+
+with left_1:
+    with st.expander("With outlines"):
+        tab_1a,tab_1b = st.tabs([":bar_chart:", ":bookmark_tabs:"])
         
-            tab_1a.dataframe(df_model.describe())
-            tab_1b.pyplot(fig)
+        fig = sns.pairplot(df_model[['Price', 'Area', 'Room']], diag_kind='auto',corner=True)
     
-    
-    with right_1:
-        with st.expander("Without outlines"):
-            tab_2a,tab_2b = st.tabs([":bar_chart:", ":bookmark_tabs:"])
-            
-            area  = df_model["Area"].quantile(0.8)
-            price  = df_model["Price"].quantile(0.8)
-            room  = df_model["Room"].quantile(0.8)
-            df_model_class = df_model[(df_model["Area"]<=area)&(df_model["Price"]<=price)&(df_model["Room"]<=room)]
-            
-            fig_2 = sns.pairplot(df_model_class[['Price', 'Area', 'Room']], diag_kind='auto',corner=True)
-            
-            tab_2a.dataframe(df_model_class.describe())
-            tab_2b.pyplot(fig_2)
+        tab_1a.dataframe(df_model.describe())
+        tab_1b.pyplot(fig)
+
+
+with right_1:
+    with st.expander("Without outlines"):
+        tab_2a,tab_2b = st.tabs([":bar_chart:", ":bookmark_tabs:"])
+        
+        area  = df_model["Area"].quantile(0.8)
+        price  = df_model["Price"].quantile(0.8)
+        room  = df_model["Room"].quantile(0.8)
+        df_model_class = df_model[(df_model["Area"]<=area)&(df_model["Price"]<=price)&(df_model["Room"]<=room)]
+        
+        fig_2 = sns.pairplot(df_model_class[['Price', 'Area', 'Room']], diag_kind='auto',corner=True)
+        
+        tab_2a.dataframe(df_model_class.describe())
+        tab_2b.pyplot(fig_2)
 
 
 
@@ -127,6 +126,8 @@ elif selecter == "Classification":
 #----------------------------------------------------------------
 
 #----------------------------------------------------------------
+elif selecter == "Classification":
+    
     from sklearn import set_config
     from sklearn.utils import resample
     from sklearn.datasets import fetch_openml
