@@ -155,7 +155,7 @@ dict_model = {"Ada Boost Classifier":AdaBoostClassifier(),
             "Random Forest Classifier":RandomForestClassifier(),
              }
 
-MODEL = st.selectbox(label="Chose a model", options=list(dict_model), disabled=False, label_visibility="visible")
+MODEL = st.sidebar.selectbox(label="Chose a model", options=list(dict_model), disabled=False, label_visibility="visible")
 
 
 # create the pipeline
@@ -211,7 +211,7 @@ kl = KneeLocator(
 st.write(f'The elbow is reached with {kl.elbow} clusters')
 
 
-KLUSTER = st.number_input(label="Chose the number of clusters", min_value=2, max_value=5, value=kl.elbow, step=1,  disabled=False, label_visibility="visible")
+KLUSTER = st.sidebar.number_input(label="Chose the number of clusters", min_value=2, max_value=5, value=kl.elbow, step=1,  disabled=False, label_visibility="visible")
 
 kmeans = cluster.KMeans(n_clusters=KLUSTER ,**kmeans_kwargs)
 kmeans = kmeans.fit(X)
