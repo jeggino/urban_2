@@ -58,7 +58,7 @@ if selecter == "Infos":
 
 
 #----------------------------------------------------------------
-SAMPLER = st.sidebar.slider(label="Chose the sample", min_value=0.5, max_value=1.0, value=0.8, step=0.1)
+SAMPLER = st.sidebar.slider(label="Chose the sample", min_value=0.5, max_value=1.0, value=0.8, step=0.1, format='%')
 st.write(SAMPLER)
 
 left_1,right_1 = st.columns(spec=2, gap="medium")
@@ -250,11 +250,10 @@ elif selecter == "Segmentation":
     kl = KneeLocator(
         range(1, 11), sse, curve="convex", direction="decreasing"
     )
+        
     
-    st.write(f'The elbow is reached with {kl.elbow} clusters')
-    
-    
-    KLUSTER = st.sidebar.number_input(label="Chose the number of clusters", min_value=2, max_value=5, value=kl.elbow, step=1,  disabled=False, label_visibility="visible")
+    KLUSTER = st.sidebar.number_input(label=f"Chose the number of clusters. Consider that the elbow is reached with {kl.elbow} clusters", 
+                                      min_value=2, max_value=5, value=kl.elbow, step=1,  disabled=False, label_visibility="visible")
     
     kmeans = cluster.KMeans(n_clusters=KLUSTER ,**kmeans_kwargs)
     kmeans = kmeans.fit(X)
