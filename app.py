@@ -43,7 +43,6 @@ def get_data():
 df_model = get_data()[1]
 gdf_areas_point = get_data()[0]
 #----------------------------------------------------------------
-st.dataframe(df_model)
 st.dataframe(df_model.describe())
 
 
@@ -59,13 +58,13 @@ price  = df_model["Price"].quantile(0.8)
 room  = df_model["Room"].quantile(0.8)
 
 df_model_class = df_model[(df_model["Area"]<=area)&(df_model["Price"]<=price)&(df_model["Room"]<=room)]
-st.dataframe(df_model_class.describe())
+
 
 
 #----------------------------------------------------------------
 fig_2 = sns.pairplot(df_model_class[['Price', 'Area', 'Room']], diag_kind='auto',corner=True)
-sns.set_theme(style="white")
 st.pyplot(fig_2)
+st.dataframe(df_model_class.describe())
 
 
 #----------------------------------------------------------------
@@ -76,8 +75,6 @@ df_model_class['price_class'] = pd.cut(df_model_class.Price,
                                  include_lowest=True,
                                  labels=['low','high'])
 
-
-st.dataframe(df_model_class)
 
 
 # #----------------------------------------------------------------
