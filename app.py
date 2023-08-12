@@ -126,7 +126,7 @@ with right_1:
 #----------------------------------------------------------------
 
 #----------------------------------------------------------------
-elif selecter == "Classification":
+if selecter == "Classification":
     
     from sklearn import set_config
     from sklearn.utils import resample
