@@ -57,8 +57,9 @@ if selecter == "Infos":
     
 
 
-SAMPLER = st.sidebar.slider(label="Chose the sample", min_value=0.5, max_value=1, value=0.8, step=0.1, disabled=False, label_visibility="visible")
 #----------------------------------------------------------------
+SAMPLER = st.sidebar.slider(label="Chose the sample", min_value=0.5, max_value=1, value=0.8, step=0.1, disabled=False, label_visibility="visible")
+
 left_1,right_1 = st.columns(spec=2, gap="medium")
 
 with left_1:
