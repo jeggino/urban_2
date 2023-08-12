@@ -301,9 +301,9 @@ elif selecter == "Segmentation":
         
         
         #--------------------
-        tab_3a.altair_chart(altair_chart=Area, use_container_width=False, theme="streamlit")
-        tab_3b.altair_chart(altair_chart=Price, use_container_width=False, theme="streamlit")
-        tab_3c.altair_chart(altair_chart=Room, use_container_width=False, theme="streamlit")
+        tab_3a.altair_chart(altair_chart=Area, use_container_width=True, theme="streamlit")
+        tab_3b.altair_chart(altair_chart=Price, use_container_width=True, theme="streamlit")
+        tab_3c.altair_chart(altair_chart=Room, use_container_width=True, theme="streamlit")
     
     
     #---------------------
@@ -400,7 +400,7 @@ elif selecter == "Segmentation":
         #fullscreen
         folium.plugins.Fullscreen().add_to(m)
         
-        st_data = st_folium(m, width=725)
+        st_data = st_folium(m)
 
 
 
