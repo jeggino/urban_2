@@ -209,6 +209,8 @@ if selecter == "Classification":
                 
     if st.button('Fit the model with new inputs to get the price class.'):
         predict = predict()
+        st.stop()
+        
 
 
 #----------------------------------------------------------------
