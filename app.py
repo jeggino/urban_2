@@ -189,7 +189,7 @@ if selecter == "Classification":
 
     rf, le = model()
     
-    @st.cache_resource(experimental_allow_widgets=True)
+    # @st.cache_resource(experimental_allow_widgets=True)
     def predict():
         
         st.sidebar.divider()
