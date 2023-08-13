@@ -219,6 +219,14 @@ if selecter == "Classification":
     
     st.dataframe(confusion_matrix)
 
+    AREA = st.slider(label="Chose area", min_value=20, max_value=150, value=30, step=1)
+    ROOM = st.slider(label="Chose rooms", min_value=1, max_value=10, value=2, step=1)
+    GEBIED = st.selectbox(label="Chose neighbour", options=X.Gebied.unique(), disabled=False, label_visibility="visible")
+    
+    data = {'Area':AREA, 'Room':ROOM, 'Gebied':GEBIED}
+    df_predict = pd.DataFrame(data,index=range(1))
+    predict = le.inverse_transform(rf.predict(df_predict))
+    st.write(predict)
 
 #----------------------------------------------------------------
 elif selecter == "Segmentation":
