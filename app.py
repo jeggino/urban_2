@@ -95,6 +95,8 @@ with right_1:
                                              labels=['low','high']
                                               )
 
+st.divider()
+
 
 
 if selecter == "Classification":
@@ -159,6 +161,8 @@ if selecter == "Classification":
                  }
     
     MODEL = st.sidebar.selectbox(label="Chose a model", options=list(dict_model), disabled=False, label_visibility="visible")
+
+    st.sidebar.divider()
     
     
     # create the pipeline
@@ -180,7 +184,7 @@ if selecter == "Classification":
             "F1 score":fscore
             }
         
-    st.dataframe(pd.DataFrame(data=data,index=["High","Low"]).round(2))
+    st.sidebar.dataframe(pd.DataFrame(data=data,index=["High","Low"]).round(2))
 
 
     AREA = st.slider(label="Chose area", min_value=20, max_value=150, value=30, step=1)
