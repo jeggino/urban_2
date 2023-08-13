@@ -193,10 +193,12 @@ if selecter == "Classification":
     
     if st.button('Fit the model with new inputs to get the price class.'):
         st.sidebar.divider()
+
+        col1,col2,col3 = st.columns(3)
         
-        AREA = st.sidebar.slider(label="Chose area", min_value=20, max_value=150, value=30, step=1)
-        ROOM = st.sidebar.slider(label="Chose rooms", min_value=1, max_value=10, value=2, step=1)
-        GEBIED = st.sidebar.selectbox(label="Chose neighbour", options=df_model_class.Gebied.unique(), disabled=False, label_visibility="visible")
+        AREA = col1.slider(label="Chose area", min_value=20, max_value=150, value=30, step=1)
+        ROOM = col2.slider(label="Chose rooms", min_value=1, max_value=10, value=2, step=1)
+        GEBIED = col3.selectbox(label="Chose neighbour", options=df_model_class.Gebied.unique(), disabled=False, label_visibility="visible")
         
         data = {'Area':AREA, 'Room':ROOM, 'Gebied':GEBIED}
         df_predict = pd.DataFrame(data,index=range(1))
@@ -204,11 +206,9 @@ if selecter == "Classification":
         predict = le.inverse_transform(rf.predict(df_predict))
     
         if predict == 'high':
-            st.write(f"The predict class is HIGH which means tha the price will be HIGHER than {round(df_model_class['Price'].mean())} euros")
-            st.stop()
+            st.markdown("The predict class is :green[HIGH] which means that the price will be ⬆️ than {round(df_model_class['Price'].mean())} euros")
         elif predict == 'low':
-            st.write(f"The predict class is LOW which means tha the price will be LOWER than {round(df_model_class['Price'].mean())} euros")
-            st.stop()
+            st.markdown("The predict class is :red[LOW] which means that the price will be ⬇️ than {round(df_model_class['Price'].mean())} euros")
        
 
 
