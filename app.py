@@ -115,7 +115,7 @@ if selecter == "Classification":
     from sklearn.metrics import precision_recall_fscore_support as score
 
     
-    @st.cache_resource(experimental_allow_widgets=True)
+    @st.cache_data(experimental_allow_widgets=True)
     def model():        
         
         low = df_model_class[df_model_class.price_class == 'low']
@@ -187,11 +187,11 @@ if selecter == "Classification":
 
         return rf, le
 
-    model()
+   rf, le = model()
     
     if st.button('Fit the model with new inputs to get the price class.'):
         st.sidebar.divider()
-        rf, le = model()
+        
         AREA = st.sidebar.slider(label="Chose area", min_value=20, max_value=150, value=30, step=1)
         ROOM = st.sidebar.slider(label="Chose rooms", min_value=1, max_value=10, value=2, step=1)
         GEBIED = st.sidebar.selectbox(label="Chose neighbour", options=df_model_class.Gebied.unique(), disabled=False, label_visibility="visible")
