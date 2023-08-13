@@ -316,11 +316,12 @@ elif selecter == "Segmentation":
         df['City'] = df['Address'].str.split(",",n=1,expand=True)[1]
         df['Address'] = df['Address'].str.split(",",n=1,expand=True)[0]
 
+        
         CLUSTERS = st.multiselect('Chose which cluster',df["Clusters"].unique(),df["Clusters"].unique())
         df = df[df["Clusters"].isin(CLUSTERS)]
         
 
-        MAP = st.radio(label="Chose a layer style", options=["Screen Grid Layer","Scatter plot Layer"],horizontal=True)
+        MAP = st.radio(label="Chose a layer style", options=["Screen Grid Layer","Grid Layer","Scatter plot Layer"],horizontal=True)
         
         if MAP == "Screen Grid Layer":
             # Define a layer to display on a map
@@ -346,6 +347,24 @@ elif selecter == "Segmentation":
             
             tooltip = {
                 "html": "<b>{cellCount} properties",
+                "style": {"background": "#DC851F", "color": "#45462a", "font-family": '"Helvetica Neue", Arial'},
+            }
+            
+        
+            r = pdk.Deck(layers=[layer], initial_view_state=view_state, tooltip=tooltip)
+
+            st.pydeck_chart(pydeck_obj=r, use_container_width=True)
+
+        elif MAP == "Grid Layer":
+            layer = pdk.Layer(
+                "GridLayer", df, pickable=True, extruded=True, cell_size=200, elevation_scale=4, get_position="geometry.coordinates",
+            )
+
+            # Set the viewport location
+            view_state = pdk.ViewState(latitude=52.370978, longitude=4.899875, zoom=12, bearing=0, pitch=0)
+            
+            tooltip = {
+                "html": "<b>{count} properties",
                 "style": {"background": "#DC851F", "color": "#45462a", "font-family": '"Helvetica Neue", Arial'},
             }
             
