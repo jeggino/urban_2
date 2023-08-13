@@ -169,39 +169,24 @@ if selecter == "Classification":
     
     # fit the pipeline
     rf.fit(X_train, y_train)
-
-    precision, recall, fscore, support = score(y_test, predicted)
-
-    print('precision: {}'.format(precision))
-    print('recall: {}'.format(recall))
-    print('fscore: {}'.format(fscore))
-    print('support: {}'.format(support))
     
     st.write(f"{MODEL} train accuracy: %0.3f" % rf.score(X_train, y_train))
     st.write(f"{MODEL} test accuracy: %0.3f" % rf.score(X_test, y_test))
     
-
-    
-    
     
     y_true = le.inverse_transform(y_test)
     y_pred = le.inverse_transform(rf.predict(X_test))
-    # confusion_matrix = pd.crosstab(le.inverse_transform(y_test),
-    #                                le.inverse_transform(rf.predict(X_test)),
-    #                                rownames=['Actual'], colnames=['Predicted'],
-    #                                normalize='index')
     
-    # st.dataframe(confusion_matrix)
-    precision, recall, fscore, support = score(y_true, y_pred)
+    precision, recall, fscore = score(y_true, y_pred)
     
     data = {"Recall":recall,
             "Precision":precision,
             "F1 score":fscore
             }
     
+    
     st.dataframe(pd.DataFrame(data=data,index=["High","Low"]).round(2))
 
-    # model()
 
     AREA = st.slider(label="Chose area", min_value=20, max_value=150, value=30, step=1)
     ROOM = st.slider(label="Chose rooms", min_value=1, max_value=10, value=2, step=1)
