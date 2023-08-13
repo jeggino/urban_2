@@ -87,6 +87,14 @@ with right_1:
         tab_2a.dataframe(df_model_class.describe())
         tab_2b.pyplot(fig_2)
 
+        df_model_class['price_class'] = pd.cut(df_model_class.Price,
+                                             bins=[df_model_class["Price"].min(),
+                                                   df_model_class["Price"].mean(),
+                                                   df_model_class["Price"].max()],
+                                             include_lowest=True,
+                                             labels=['low','high']
+                                              )
+
 
 
 
@@ -144,14 +152,7 @@ if selecter == "Classification":
     from sklearn.preprocessing import OneHotEncoder,StandardScaler,LabelEncoder
     
     @st.cache_data(experimental_allow_widgets=True)
-    def model():
-        df_model_class['price_class'] = pd.cut(df_model_class.Price,
-                                         bins=[df_model_class["Price"].min(),
-                                               df_model_class["Price"].mean(),
-                                               df_model_class["Price"].max()],
-                                         include_lowest=True,
-                                         labels=['low','high'])
-        
+    def model():        
         
         low = df_model_class[df_model_class.price_class == 'low']
         high = df_model_class[df_model_class.price_class == 'high']
@@ -224,7 +225,7 @@ if selecter == "Classification":
 
     AREA = st.slider(label="Chose area", min_value=20, max_value=150, value=30, step=1)
     ROOM = st.slider(label="Chose rooms", min_value=1, max_value=10, value=2, step=1)
-    GEBIED = st.selectbox(label="Chose neighbour", options=X.Gebied.unique(), disabled=False, label_visibility="visible")
+    GEBIED = st.selectbox(label="Chose neighbour", options=df_model_class.Gebied.unique(), disabled=False, label_visibility="visible")
     
     data = {'Area':AREA, 'Room':ROOM, 'Gebied':GEBIED}
     df_predict = pd.DataFrame(data,index=range(1))
