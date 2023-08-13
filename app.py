@@ -97,47 +97,6 @@ with right_1:
 
 
 
-
-#----------------------------------------------------------------
-
-
-
-#----------------------------------------------------------------
-
-
-
-
-
-#----------------------------------------------------------------
-
-
-
-
-# #----------------------------------------------------------------
-# df_3 = df_model_class.groupby(['price_class']).mean()#.round(2)
-# st.dataframe(df_3)
-
-
-# #----------------------------------------------------------------
-# fig_3 = df_model_class.price_class.value_counts().plot(kind='bar')
-# st.pyplot(fig_3)
-
-
-# #----------------------------------------------------------------
-# df_4 = df_model_class.groupby('Gebied').mean().round() \
-# .sort_values('Price', ascending=False)
-# st.dataframe(df_4)
-
-
-# #----------------------------------------------------------------
-# fig_4 = df_model_class.Gebied.value_counts().plot(kind='bar')
-# st.pyplot(fig_4)
-
-
-
-#----------------------------------------------------------------
-
-#----------------------------------------------------------------
 if selecter == "Classification":
     
     from sklearn import set_config
@@ -150,6 +109,8 @@ if selecter == "Classification":
     from sklearn.model_selection import train_test_split
     from sklearn.pipeline import Pipeline
     from sklearn.preprocessing import OneHotEncoder,StandardScaler,LabelEncoder
+
+    le = LabelEncoder()
     
     @st.cache_data(experimental_allow_widgets=True)
     def model():        
@@ -164,7 +125,7 @@ if selecter == "Classification":
         df_model_2 = oversampled.iloc[:,1:]
         
         X = df_model_2.iloc[:,:-1]
-        le = LabelEncoder()
+        
         y = le.fit_transform(df_model_2.price_class)
         
         categorical_columns = df_model_2.select_dtypes('object').columns.tolist()
