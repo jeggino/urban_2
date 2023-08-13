@@ -178,7 +178,7 @@ if selecter == "Classification":
 
         
             
-    @st.cache_resource(experimental_allow_widgets=True)
+    @st.cache_resource()
     def predict_model():
 
         
