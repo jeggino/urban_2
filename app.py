@@ -164,28 +164,20 @@ if selecter == "Classification":
     
    
     
-    @st.cache_resource(experimental_allow_widgets=True)
-    def load_model():
-        MODEL = st.sidebar.selectbox(label="Chose a model", options=list(dict_model), disabled=False, label_visibility="visible")
-        st.sidebar.divider()
-        # create the pipeline
-        rf = Pipeline([
-            ('preprocess', preprocessing),
-            ('classifier', dict_model[MODEL])
-        ])
-        
-        # fit the pipeline
-        rf.fit(X_train, y_train)
+    
+    MODEL = st.sidebar.selectbox(label="Chose a model", options=list(dict_model), disabled=False, label_visibility="visible")
+    st.sidebar.divider()
+    # create the pipeline
+    rf = Pipeline([
+        ('preprocess', preprocessing),
+        ('classifier', dict_model[MODEL])
+    ])
+    
+    # fit the pipeline
+    rf.fit(X_train, y_train)
 
         
-        
-    
-        
-
-        return rf
-        
-    rf = load_model()
-    
+            
     @st.cache_resource(experimental_allow_widgets=True)
     def predict_model():
 
