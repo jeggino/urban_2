@@ -143,7 +143,7 @@ if selecter == "Classification":
     from sklearn.pipeline import Pipeline
     from sklearn.preprocessing import OneHotEncoder,StandardScaler,LabelEncoder
     
-    @st.cache_data
+    @st.cache_data(experimental_allow_widgets=True)
     def model():
         df_model_class['price_class'] = pd.cut(df_model_class.Price,
                                          bins=[df_model_class["Price"].min(),
