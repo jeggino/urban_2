@@ -339,7 +339,7 @@ elif selecter == "Segmentation":
             radius_max_pixels=100,
             line_width_min_pixels=1,
             get_position="geometry.coordinates",
-            get_radius="Price",
+            get_radius="Price/1000",
             get_fill_color='color',
             get_line_color=[0, 0, 0],
         )
