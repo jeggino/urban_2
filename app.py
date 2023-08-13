@@ -349,7 +349,7 @@ elif selecter == "Segmentation":
 
             st.pydeck_chart(pydeck_obj=r, use_container_width=True)
 
-        elif MAP == "Scatter plot Layer"
+        elif MAP == "Scatter plot Layer":
             left_2,right_2 = st.columns(spec=[1,1], gap="medium")
         
             
