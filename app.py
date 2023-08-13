@@ -112,7 +112,7 @@ if selecter == "Classification":
 
     le = LabelEncoder()
     
-    @st.cache_data(experimental_allow_widgets=True)
+    @st.cache_resource(experimental_allow_widgets=True)
     def model():        
         
         low = df_model_class[df_model_class.price_class == 'low']
