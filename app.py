@@ -258,7 +258,7 @@ elif selecter == "Segmentation":
 
     
 
-    tab_3a,tab_3b,tab_3c,tab_3d = st.tabs([":bar_chart:", ":bar_chart:",":bar_chart:","📌"])
+    tab_3a,tab_3b,tab_3c,tab_3d = st.tabs(["📏 size", "💶 price","🚪 rooms","📌 maps"])
     #------------------
     import altair as alt
     
