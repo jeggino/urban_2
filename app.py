@@ -185,9 +185,10 @@ if selecter == "Classification":
             
         st.sidebar.dataframe(pd.DataFrame(data=data,index=["High","Low"]).round(2).T)
 
-        return rf
+        return rf, le
 
-    rf = model()
+    rf = model()[0]
+    le = model()[1]
     
     if st.button('Fit the model with new inputs to get the price class.'):
         st.sidebar.divider()
