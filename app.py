@@ -115,7 +115,7 @@ if selecter == "Classification":
     from sklearn.metrics import precision_recall_fscore_support as score
 
     
-    @st.cache_resource(experimental_allow_widgets=True)
+    @st.cache_data(experimental_allow_widgets=True)
     def model():        
         
         low = df_model_class[df_model_class.price_class == 'low']
