@@ -280,7 +280,7 @@ elif selecter == "Segmentation":
     
     
     Room = base.mark_bar().encode(
-        column='Clusters:N',
+        column='Clusters:O',
         x=alt.X('Room:O'),
         y=alt.Y('count()'),
         color='Clusters:N'
