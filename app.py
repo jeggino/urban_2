@@ -115,7 +115,7 @@ if selecter == "Classification":
     from sklearn.metrics import precision_recall_fscore_support as score
 
     
-    @st.cache_data(experimental_allow_widgets=True)
+    @st.cache_resource(experimental_allow_widgets=True)
     def model():        
         
         low = df_model_class[df_model_class.price_class == 'low']
@@ -205,8 +205,10 @@ if selecter == "Classification":
     
         if predict == 'high':
             st.write(f"The predict class is HIGH which means tha the price will be HIGHER than {round(df_model_class['Price'].mean())} euros")
+            st.stop()
         elif predict == 'low':
             st.write(f"The predict class is LOW which means tha the price will be LOWER than {round(df_model_class['Price'].mean())} euros")
+            st.stop()
        
 
 
