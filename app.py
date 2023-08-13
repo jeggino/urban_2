@@ -297,7 +297,6 @@ elif selecter == "Segmentation":
 
     #---------------------
     with tab_3d:
-        MAP = st.radio(label="Chose a layer style", options=["Screen Grid Layer","Scatter plot Layer"])
         
         df = gpd.GeoDataFrame(pd.merge(df_segmentation, 
                                        gdf_areas_point[['Address', 'Zip','geometry']],
@@ -315,6 +314,8 @@ elif selecter == "Segmentation":
         df['City'] = df['Address'].str.split(",",n=1,expand=True)[1]
         df['Address'] = df['Address'].str.split(",",n=1,expand=True)[0]
 
+        MAP = st.radio(label="Chose a layer style", options=["Screen Grid Layer","Scatter plot Layer"],horizontal=True)
+        
         if MAP == "Screen Grid Layer":
             # Define a layer to display on a map
             layer = pdk.Layer(
@@ -342,9 +343,7 @@ elif selecter == "Segmentation":
                 "style": {"background": "#DC851F", "color": "#45462a", "font-family": '"Helvetica Neue", Arial'},
             }
             
-            # tooltip={"text": "{cellCount} properties"}
-            
-            # Render
+        
             r = pdk.Deck(layers=[layer], initial_view_state=view_state, tooltip=tooltip)
 
             st.pydeck_chart(pydeck_obj=r, use_container_width=True)
@@ -389,4 +388,4 @@ elif selecter == "Segmentation":
                  initial_view_state=view_state,
                 tooltip=TOOLTIP[GET_RATIO])
     
-        st.pydeck_chart(pydeck_obj=r, use_container_width=True)
+            st.pydeck_chart(pydeck_obj=r, use_container_width=True)
