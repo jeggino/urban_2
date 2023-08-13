@@ -197,6 +197,8 @@ if selecter == "Classification":
         
         data = {'Area':AREA, 'Room':ROOM, 'Gebied':GEBIED}
         df_predict = pd.DataFrame(data,index=range(1))
+        st.dataframe(df_predict)
+        st.write(rf.predict(df_predict))
         predict = le.inverse_transform(rf.predict(df_predict))
     
         if predict == 'high':
