@@ -355,11 +355,13 @@ elif selecter == "Segmentation":
             # Set the viewport location
             view_state = pdk.ViewState(latitude=52.370978, longitude=4.899875, zoom=12, bearing=0, pitch=0)
             
+            TOOLTIP = {'Price/1000':{"text": "Price: {Price}n\{Address}, {Zip} {City}"}, 
+                       'Area':{"text": "Area: {Area}n\{Address}, {Zip} {City}"},
+                       'Room':{"text": "Number of rooms: {Room}n\{Address}, {Zip} {City}"}}
             
-            tooltip={"text": "{Address}, {Zip} {City}"}
             
             r = pdk.Deck(layers=[layer], 
                  initial_view_state=view_state,
-                tooltip=tooltip)
+                tooltip=TOOLTIP[GET_RATIO])
     
             st.pydeck_chart(pydeck_obj=r, use_container_width=True)
