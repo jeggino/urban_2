@@ -202,6 +202,8 @@ if selecter == "Classification":
         if predict == 'low':
             st.write(f"The predict class is {predict} which means tha the price will be LOWER than {round(df_model_class['Price'].mean())} euros")
 
+        model()
+
     if st.button('Fit the model with new inputs to get the price class.'):
         model()
 #----------------------------------------------------------------
