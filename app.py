@@ -188,6 +188,7 @@ if selecter == "Classification":
     # model()
     @st.cache_resource(experimental_allow_widgets=True)
     def model(): 
+        st.button('Fit the model with new inputs to get the price class.'):
         st.sidebar.divider()
         AREA = st.sidebar.slider(label="Chose area", min_value=20, max_value=150, value=30, step=1)
         ROOM = st.sidebar.slider(label="Chose rooms", min_value=1, max_value=10, value=2, step=1)
@@ -203,8 +204,8 @@ if selecter == "Classification":
             st.write(f"The predict class is {predict} which means tha the price will be LOWER than {round(df_model_class['Price'].mean())} euros")
 
 
-    if st.button('Fit the model with new inputs to get the price class.'):
-        model()
+    
+    model()
         st.stop()
 #----------------------------------------------------------------
 elif selecter == "Segmentation":
