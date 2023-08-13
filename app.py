@@ -124,7 +124,8 @@ if selecter == "Classification":
     df_model_2 = oversampled.iloc[:,1:]
     
     X = df_model_2.iloc[:,:-1]
-    
+
+    le = LabelEncoder()
     y = le.fit_transform(df_model_2.price_class)
     
     categorical_columns = df_model_2.select_dtypes('object').columns.tolist()
