@@ -174,7 +174,7 @@ if selecter == "Classification":
         # fit the pipeline
         rf.fit(X_train, y_train)
 
-        return {"rf":rf,"X_test":X_test, "y_test":y_test, "y_true":y_true}}
+        return {"rf":rf,"X_test":X_test, "y_test":y_test, "y_true":y_true}
         
     le = LabelEncoder()
     X_test = model()["X_test"]
