@@ -298,12 +298,14 @@ elif selecter == "Segmentation":
     #---------------------
     with tab_3d:
         
+        
         df = gpd.GeoDataFrame(pd.merge(df_segmentation, 
                                        gdf_areas_point[['Address', 'Zip','geometry']],
                                        left_index=True, 
                                        right_index=True),
                               geometry='geometry',
                               crs="EPSG:4326")
+        
     
         colors = dict(zip(df.Clusters.sort_values().unique().tolist(),
                   list(sns.color_palette("husl", len(df.Clusters.sort_values().unique())))
@@ -313,6 +315,10 @@ elif selecter == "Segmentation":
         df['color'] = df["Clusters"].map(colors).apply(lambda x: [i*255 for i in x])
         df['City'] = df['Address'].str.split(",",n=1,expand=True)[1]
         df['Address'] = df['Address'].str.split(",",n=1,expand=True)[0]
+
+        CLUSTERS = st.multiselect('Chose which cluster',df["Clusters"].unique(),df["Clusters"].unique())
+        df = df[df["Clusters"].isin(CLUSTERS)]
+        
 
         MAP = st.radio(label="Chose a layer style", options=["Screen Grid Layer","Scatter plot Layer"],horizontal=True)
         
