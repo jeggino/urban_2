@@ -177,7 +177,8 @@ if selecter == "Classification":
     y_true = le.inverse_transform(y_test)
     y_pred = le.inverse_transform(rf.predict(X_test))
     
-    precision, recall, fscore = score(y_true, y_pred)
+    precision, recall, fscore, support = score(y_true, y_pred)
+
     
     data = {"Recall":recall,
             "Precision":precision,
