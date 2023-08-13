@@ -269,93 +269,97 @@ elif selecter == "Segmentation":
     with left_2:
         tab_3a,tab_3b,tab_3c = st.tabs([":bar_chart:", ":bar_chart:",":bar_chart:"])
         #------------------
-        import altair as alt
-        
-        source = df_segmentation
-        
-        base = alt.Chart(source).properties(width=80,height=300)
-        
-        Price = base.mark_boxplot().encode(
-            x=alt.X('Clusters:N',title=None,axis=alt.Axis(values=[0], ticks=True, grid=False, labels=True)),
-            y=alt.Y('Price:Q', type='quantitative',axis=alt.Axis(ticks=True, grid=False, labels=True)),
-            color='Clusters:N'
-        )
-        
-        Area = base.mark_boxplot().encode(
-            x=alt.X('Clusters:N',title=None,axis=alt.Axis(values=[0], ticks=True, grid=False, labels=True)),
-            y=alt.Y('Area:Q', type='quantitative',axis=alt.Axis(ticks=True, grid=False, labels=True)),
-            color='Clusters:N'
-        )
-        
-        
-        Room = base.mark_bar().encode(
-            column='Clusters:N',
-            x=alt.X('Room:O'),
-            y=alt.Y('count()'),
-            color='Clusters:N'
-        )
-        
-        #--------------------
-        # cm = sns.light_palette("green", as_cmap=True)
-        # cluster_mean = df_segmentation.groupby('Clusters')[['Price','Area']].mean()
-        # st.dataframe(cluster_mean.style.background_gradient(cmap=cm).set_precision(1))
-        
-        
-        #--------------------
-        tab_3a.altair_chart(altair_chart=Area, use_container_width=True, theme="streamlit")
-        tab_3b.altair_chart(altair_chart=Price, use_container_width=True, theme="streamlit")
-        tab_3c.altair_chart(altair_chart=Room, use_container_width=True, theme="streamlit")
+        with st.container():
+            import altair as alt
+            
+            source = df_segmentation
+            
+            base = alt.Chart(source).properties(width=80,height=300)
+            
+            Price = base.mark_boxplot().encode(
+                x=alt.X('Clusters:N',title=None,axis=alt.Axis(values=[0], ticks=True, grid=False, labels=True)),
+                y=alt.Y('Price:Q', type='quantitative',axis=alt.Axis(ticks=True, grid=False, labels=True)),
+                color='Clusters:N'
+            )
+            
+            Area = base.mark_boxplot().encode(
+                x=alt.X('Clusters:N',title=None,axis=alt.Axis(values=[0], ticks=True, grid=False, labels=True)),
+                y=alt.Y('Area:Q', type='quantitative',axis=alt.Axis(ticks=True, grid=False, labels=True)),
+                color='Clusters:N'
+            )
+            
+            
+            Room = base.mark_bar().encode(
+                column='Clusters:N',
+                x=alt.X('Room:O'),
+                y=alt.Y('count()'),
+                color='Clusters:N'
+            )
+            
+            #--------------------
+            # cm = sns.light_palette("green", as_cmap=True)
+            # cluster_mean = df_segmentation.groupby('Clusters')[['Price','Area']].mean()
+            # st.dataframe(cluster_mean.style.background_gradient(cmap=cm).set_precision(1))
+            
+            
+            #--------------------
+            tab_3a.altair_chart(altair_chart=Area, use_container_width=True, theme="streamlit")
+            tab_3b.altair_chart(altair_chart=Price, use_container_width=True, theme="streamlit")
+            tab_3c.altair_chart(altair_chart=Room, use_container_width=True, theme="streamlit")
     
     
     #---------------------
     with right_2:
+        with st.container():
 
-        df = gpd.GeoDataFrame(pd.merge(df_segmentation, 
-                                       gdf_areas_point[['Address', 'Zip','geometry']],
-                                       left_index=True, 
-                                       right_index=True),
-                              geometry='geometry',
-                              crs="EPSG:4326")
-
-        colors = dict(zip(df.Clusters.sort_values().unique().tolist(),
-                  list(sns.color_palette("husl", len(df.Clusters.sort_values().unique())))
+            df = gpd.GeoDataFrame(pd.merge(df_segmentation, 
+                                           gdf_areas_point[['Address', 'Zip','geometry']],
+                                           left_index=True, 
+                                           right_index=True),
+                                  geometry='geometry',
+                                  crs="EPSG:4326")
+    
+            colors = dict(zip(df.Clusters.sort_values().unique().tolist(),
+                      list(sns.color_palette("husl", len(df.Clusters.sort_values().unique())))
+                     )
                  )
-             )
+    
+            df['color'] = df["Clusters"].map(colors).apply(lambda x: [i*255 for i in x])
+            df['City'] = df['Address'].str.split(",",n=1,expand=True)[1]
+            df['Address'] = df['Address'].str.split(",",n=1,expand=True)[0]
+    
+            RATIO_SCALE = st.number_input(label=f"Ratio scale", min_value=0.1, max_value=30.0, value=1.0, step=0.1)
+            GET_RATIO = st.selectbox(label="Select a variable", options=['Price', 'Area', 'Room'], disabled=False, label_visibility="visible")
 
-        df['color'] = df["Clusters"].map(colors).apply(lambda x: [i*255 for i in x])
-        df['City'] = df['Address'].str.split(",",n=1,expand=True)[1]
-        df['Address'] = df['Address'].str.split(",",n=1,expand=True)[0]
-
-        RATIO_SCALE = st.number_input(label=f"Ratio scale", min_value=0.1, max_value=30.0, value=1.0, step=0.1)
-        GET_RATIO = st.selectbox(label="Select a variable", options=['Price', 'Area', 'Room'], disabled=False, label_visibility="visible")
-
-        if GET_RATIO == 'Price':
-            GET_RATIO == "Price/1000"
-
-        # Define a layer to display on a map
-        layer = pdk.Layer(
-            "ScatterplotLayer",
-            df,
-            pickable=True,
-            opacity=0.8,
-            stroked=True,
-            filled=True,
-            radius_scale=RATIO_SCALE,
-            line_width_min_pixels=1,
-            get_position="geometry.coordinates",
-            get_radius=GET_RATIO,
-            get_fill_color='color',
-            get_line_color=[0, 0, 0],
-        )
-        
-        # Set the viewport location
-        view_state = pdk.ViewState(latitude=52.370978, longitude=4.899875, zoom=12, bearing=0, pitch=0)
-        
-        
-        tooltip={"text": "{Address}, {Zip} {City}"}
-        
-        r = pdk.Deck(layers=[layer], 
-             initial_view_state=view_state,
-            tooltip=tooltip)
-
-        st.pydeck_chart(pydeck_obj=r, use_container_width=True)
+            # ratio_scale = 
+    
+            if GET_RATIO == 'Price':
+                GET_RATIO = "Price/1000"
+    
+            # Define a layer to display on a map
+            layer = pdk.Layer(
+                "ScatterplotLayer",
+                df,
+                pickable=True,
+                opacity=0.8,
+                stroked=True,
+                filled=True,
+                radius_scale=RATIO_SCALE,
+                line_width_min_pixels=1,
+                get_position="geometry.coordinates",
+                get_radius=GET_RATIO,
+                get_fill_color='color',
+                get_line_color=[0, 0, 0],
+            )
+            
+            # Set the viewport location
+            view_state = pdk.ViewState(latitude=52.370978, longitude=4.899875, zoom=12, bearing=0, pitch=0)
+            
+            
+            tooltip={"text": "{Address}, {Zip} {City}"}
+            
+            r = pdk.Deck(layers=[layer], 
+                 initial_view_state=view_state,
+                tooltip=tooltip)
+    
+            st.pydeck_chart(pydeck_obj=r, use_container_width=True)
