@@ -183,11 +183,11 @@ if selecter == "Classification":
                 "F1 score":fscore
                 }
             
-        st.sidebar.dataframe(pd.DataFrame(data=data,index=["High","Low"]).round(2).T)
+        return rf, le, data
 
-        return rf, le
+    rf, le, data = model()
 
-    rf, le = model()
+    st.sidebar.dataframe(pd.DataFrame(data=data,index=["High","Low"]).round(2).T)
     
     if st.button('Fit the model with new inputs to get the price class.'):
         st.sidebar.divider()
