@@ -89,13 +89,7 @@ with right_1:
         tab_2a.dataframe(df_model_class.describe())
         tab_2b.pyplot(fig_2)
 
-        df_model_class['price_class'] = pd.cut(df_model_class.Price,
-                                             bins=[df_model_class["Price"].min(),
-                                                   df_model_class["Price"].mean(),
-                                                   df_model_class["Price"].max()],
-                                             include_lowest=True,
-                                             labels=['low','high']
-                                              )
+        
 
 st.divider()
 
@@ -113,6 +107,17 @@ if selecter == "Classification":
     from sklearn.preprocessing import OneHotEncoder,StandardScaler,LabelEncoder
 
     from sklearn.metrics import precision_recall_fscore_support as score
+
+    CLASS_PRICE = st.sidebar.slider(label="Select the class range", min_value=df_model_class.describe().loc["25%","Price"], 
+                                    max_value=df_model_class.describe().loc["75%","Price"], value=df_model_class.describe().loc["50%","Price"], 
+                                    step=1000)
+    df_model_class['price_class'] = pd.cut(df_model_class.Price,
+                                             bins=[df_model_class["Price"].min(),
+                                                   CLASS_PRICE,
+                                                   df_model_class["Price"].max()],
+                                             include_lowest=True,
+                                             labels=['low','high']
+                                              )
 
     
     # @st.cache_resource(experimental_allow_widgets=True)
