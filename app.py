@@ -191,23 +191,23 @@ if selecter == "Classification":
     st.sidebar.markdown("Model metrics")
     st.sidebar.dataframe(pd.DataFrame(data=data,index=["High","Low"]).round(2).T)
     
-    if st.button('Fit the model with new inputs to get the price class.'):
+    # if st.button('Fit the model with new inputs to get the price class.'):
 
-        col1,col2,col3 = st.columns(3)
-        
-        AREA = col1.slider(label="Chose area", min_value=20, max_value=150, value=30, step=1)
-        ROOM = col2.slider(label="Chose rooms", min_value=1, max_value=10, value=2, step=1)
-        GEBIED = col3.selectbox(label="Chose neighbour", options=df_model_class.Gebied.unique(), disabled=False, label_visibility="visible")
-        
-        data = {'Area':AREA, 'Room':ROOM, 'Gebied':GEBIED}
-        df_predict = pd.DataFrame(data,index=range(1))
-
-        predict = le.inverse_transform(rf.predict(df_predict))
+    col1,col2,col3 = st.columns(3)
     
-        if predict == 'high':
-            st.subheader(f"The predict class is :green[HIGH] which means that the price will be ⬆️ than **_{round(df_model_class['Price'].mean())}_** **_euros_**")
-        elif predict == 'low':
-            st.subheader(f"The predict class is :red[LOW] which means that the price will be ⬇️ than **_{round(df_model_class['Price'].mean())} euros_**")
+    AREA = col1.slider(label="Chose area", min_value=20, max_value=150, value=30, step=1)
+    ROOM = col2.slider(label="Chose rooms", min_value=1, max_value=10, value=2, step=1)
+    GEBIED = col3.selectbox(label="Chose neighbour", options=df_model_class.Gebied.unique(), disabled=False, label_visibility="visible")
+    
+    data = {'Area':AREA, 'Room':ROOM, 'Gebied':GEBIED}
+    df_predict = pd.DataFrame(data,index=range(1))
+
+    predict = le.inverse_transform(rf.predict(df_predict))
+
+    if predict == 'high':
+        st.subheader(f"The predict class is :green[HIGH] which means that the price will be ⬆️ than **_{round(df_model_class['Price'].mean())}_** **_euros_**")
+    elif predict == 'low':
+        st.subheader(f"The predict class is :red[LOW] which means that the price will be ⬇️ than **_{round(df_model_class['Price'].mean())} euros_**")
        
 
 
