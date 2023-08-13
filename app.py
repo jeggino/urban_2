@@ -188,7 +188,7 @@ if selecter == "Classification":
             "Precision":precision,
             "F1 score":fscore
             }
-
+    st.markdown("Model metrics")
     st.sidebar.dataframe(pd.DataFrame(data=data,index=["High","Low"]).round(2).T)
     
     if st.button('Fit the model with new inputs to get the price class.'):
