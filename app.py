@@ -115,7 +115,7 @@ if selecter == "Classification":
     from sklearn.metrics import precision_recall_fscore_support as score
 
     
-    @st.cache_data(experimental_allow_widgets=True)
+    @st.cache_resource(experimental_allow_widgets=True)
     def model():        
         
         low = df_model_class[df_model_class.price_class == 'low']
@@ -173,20 +173,26 @@ if selecter == "Classification":
         
         # fit the pipeline
         rf.fit(X_train, y_train)
-        
-        y_true = le.inverse_transform(y_test)
-        y_pred = le.inverse_transform(rf.predict(X_test))
-        
-        precision, recall, fscore, support = score(y_true, y_pred)
-       
-        data = {"Recall":recall,
-                "Precision":precision,
-                "F1 score":fscore
-                }
-            
-        st.sidebar.dataframe(pd.DataFrame(data=data,index=["High","Low"]).round(2).T)
 
-    model()
+        return {"rf":rf,"X_test":X_test, "y_test":y_test, "y_true":y_true}}
+        
+    le = LabelEncoder()
+    X_test = model()["X_test"]
+    y_test = model()["y_test"]
+    y_true = model()["y_true"]
+
+    
+    y_true = le.inverse_transform(y_test)
+    y_pred = le.inverse_transform(rf.predict(X_test))
+    
+    precision, recall, fscore, support = score(y_true, y_pred)
+   
+    data = {"Recall":recall,
+            "Precision":precision,
+            "F1 score":fscore
+            }
+        
+    st.sidebar.dataframe(pd.DataFrame(data=data,index=["High","Low"]).round(2).T)
 
     if st.button('Fit the model with new inputs to get the price class.'):
         st.sidebar.divider()
