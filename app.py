@@ -161,7 +161,7 @@ if selecter == "Classification":
     
    
     
-    @st.cache_resource(experimental_allow_widgets=True)
+    @st.cache_resource(experimental_allow_widgets=False)
     def load_model():
         MODEL = st.sidebar.selectbox(label="Chose a model", options=list(dict_model), disabled=False, label_visibility="visible")
 
