@@ -206,7 +206,7 @@ if selecter == "Classification":
         predict = le.inverse_transform(rf.predict(df_predict))
     
         if predict == 'high':
-            st.markdown(f"The predict class is :green[HIGH] which means that the price will be ⬆️ than **_{round(df_model_class['Price'].mean())} euros_**")
+            st.markdown(f"The predict class is :green[HIGH] which means that the price will be ⬆️ than **_{round(df_model_class['Price'].mean())}_** **_euros_**")
         elif predict == 'low':
             st.markdown(f"The predict class is :red[LOW] which means that the price will be ⬇️ than {round(df_model_class['Price'].mean())} euros")
        
