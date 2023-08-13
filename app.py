@@ -326,6 +326,9 @@ elif selecter == "Segmentation":
         df['City'] = df['Address'].str.split(",",n=1,expand=True)[1]
         df['Address'] = df['Address'].str.split(",",n=1,expand=True)[0]
 
+        RATIO_SCALE = st.sidebar.number_input(label=f"Ratio scale", min_value=0.1, max_value=30.0, value=1.0, step=0.1,  
+                                              disabled=False, label_visibility="visible")
+
         # Define a layer to display on a map
         layer = pdk.Layer(
             "ScatterplotLayer",
@@ -334,9 +337,7 @@ elif selecter == "Segmentation":
             opacity=0.8,
             stroked=True,
             filled=True,
-            radius_scale=0.5,
-            radius_min_pixels=1,
-            radius_max_pixels=100,
+            radius_scale=RATIO_SCALE,
             line_width_min_pixels=1,
             get_position="geometry.coordinates",
             get_radius="Price/1000",
