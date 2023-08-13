@@ -297,8 +297,8 @@ elif selecter == "Segmentation":
 
     #---------------------
     with tab_3d:
-        left_2,right_2 = st.columns(spec=[1,1], gap="medium")
-    
+        MAP = st.radio(label="Chose a layer style", options=["Screen Grid Layer","Scatter plot Layer"])
+        
         df = gpd.GeoDataFrame(pd.merge(df_segmentation, 
                                        gdf_areas_point[['Address', 'Zip','geometry']],
                                        left_index=True, 
@@ -314,41 +314,79 @@ elif selecter == "Segmentation":
         df['color'] = df["Clusters"].map(colors).apply(lambda x: [i*255 for i in x])
         df['City'] = df['Address'].str.split(",",n=1,expand=True)[1]
         df['Address'] = df['Address'].str.split(",",n=1,expand=True)[0]
-    
-        RATIO_SCALE = left_2.number_input(label=f"Ratio scale", min_value=0.1, max_value=30.0, value=1.0, step=0.1)
-        GET_RATIO = right_2.selectbox(label="Select a variable", options=['Price', 'Area', 'Room'], disabled=False, label_visibility="visible")
-    
-        # ratio_scale = 
-    
-        if GET_RATIO == 'Price':
-            GET_RATIO = "Price/1000"
-    
-        # Define a layer to display on a map
-        layer = pdk.Layer(
-            "ScatterplotLayer",
-            df,
-            pickable=True,
-            opacity=0.8,
-            stroked=True,
-            filled=True,
-            radius_scale=RATIO_SCALE,
-            line_width_min_pixels=1,
-            get_position="geometry.coordinates",
-            get_radius=GET_RATIO,
-            get_fill_color='color',
-            get_line_color=[0, 0, 0],
-        )
+
+        if MAP == "Screen Grid Layer":
+            # Define a layer to display on a map
+            layer = pdk.Layer(
+                "ScreenGridLayer",
+                df,
+                pickable=True,
+                opacity=0.8,
+                cell_size_pixels=50,
+                color_range=[
+                    [0, 25, 0, 25],
+                    [0, 85, 0, 85],
+                    [0, 127, 0, 127],
+                    [0, 170, 0, 170],
+                    [0, 190, 0, 190],
+                    [0, 255, 0, 255],
+                ],
+                get_position="geometry.coordinates",
+            )
+            
+            # Set the viewport location
+            view_state = pdk.ViewState(latitude=52.370978, longitude=4.899875, zoom=12, bearing=0, pitch=0)
+            
+            tooltip = {
+                "html": "<b>{cellCount} properties",
+                "style": {"background": "#DC851F", "color": "#45462a", "font-family": '"Helvetica Neue", Arial'},
+            }
+            
+            # tooltip={"text": "{cellCount} properties"}
+            
+            # Render
+            r = pdk.Deck(layers=[layer], initial_view_state=view_state, tooltip=tooltip)
+
+            st.pydeck_chart(pydeck_obj=r, use_container_width=True)
+
+        elif MAP == "Scatter plot Layer"
+            left_2,right_2 = st.columns(spec=[1,1], gap="medium")
         
-        # Set the viewport location
-        view_state = pdk.ViewState(latitude=52.370978, longitude=4.899875, zoom=12, bearing=0, pitch=0)
+            
+            RATIO_SCALE = left_2.number_input(label=f"Ratio scale", min_value=0.1, max_value=30.0, value=1.0, step=0.1)
+            GET_RATIO = right_2.selectbox(label="Select a variable", options=['Price', 'Area', 'Room'], disabled=False, label_visibility="visible")
         
-        TOOLTIP = {'Price/1000':{"text": "Price: {Price} euros \n{Address}, {Zip} {City}"}, 
-                   'Area':{"text": "Dimension: {Area} squared meters \n{Address}, {Zip} {City}"},
-                   'Room':{"text": "Number of rooms: {Room} \n{Address}, {Zip} {City}"}}
+            # ratio_scale = 
         
+            if GET_RATIO == 'Price':
+                GET_RATIO = "Price/1000"
         
-        r = pdk.Deck(layers=[layer], 
-             initial_view_state=view_state,
-            tooltip=TOOLTIP[GET_RATIO])
+            # Define a layer to display on a map
+            layer = pdk.Layer(
+                "ScatterplotLayer",
+                df,
+                pickable=True,
+                opacity=0.8,
+                stroked=True,
+                filled=True,
+                radius_scale=RATIO_SCALE,
+                line_width_min_pixels=1,
+                get_position="geometry.coordinates",
+                get_radius=GET_RATIO,
+                get_fill_color='color',
+                get_line_color=[0, 0, 0],
+            )
+            
+            # Set the viewport location
+            view_state = pdk.ViewState(latitude=52.370978, longitude=4.899875, zoom=12, bearing=0, pitch=0)
+            
+            TOOLTIP = {'Price/1000':{"text": "Price: {Price} euros \n{Address}, {Zip} {City}"}, 
+                       'Area':{"text": "Dimension: {Area} squared meters \n{Address}, {Zip} {City}"},
+                       'Room':{"text": "Number of rooms: {Room} \n{Address}, {Zip} {City}"}}
+            
+            
+            r = pdk.Deck(layers=[layer], 
+                 initial_view_state=view_state,
+                tooltip=TOOLTIP[GET_RATIO])
     
         st.pydeck_chart(pydeck_obj=r, use_container_width=True)
