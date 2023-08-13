@@ -115,79 +115,76 @@ if selecter == "Classification":
     from sklearn.metrics import precision_recall_fscore_support as score
 
     
-    # @st.cache_resource(experimental_allow_widgets=True)
-    # def model():        
-        
-    low = df_model_class[df_model_class.price_class == 'low']
-    high = df_model_class[df_model_class.price_class == 'high']
-    high_oversampled = resample(high, replace=True, n_samples=len(low))
-    low_subsampled = resample(low, replace=False, n_samples=len(high))
-    oversampled = pd.concat([low, high_oversampled])
-    subsampled = pd.concat([high, low_subsampled])
-    
-    df_model_2 = oversampled.iloc[:,1:]
-    
-    X = df_model_2.iloc[:,:-1]
-
-    le = LabelEncoder()
-    y = le.fit_transform(df_model_2.price_class)
-    
-    categorical_columns = df_model_2.select_dtypes('object').columns.tolist()
-    numerical_columns = df_model_2.select_dtypes('int64').columns.tolist()
-    
-    
-    X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y)
-    
-    # encode the categories
-    categorical_encoder = OneHotEncoder(handle_unknown='ignore')
-    
-    # fill NA values with mean and standardize.
-    numerical_pipe = Pipeline([
-        ('imputer', SimpleImputer(strategy='mean')),
-         ('standardizer' , StandardScaler())
-    ])
-    
-    # preprocessing
-    preprocessing = ColumnTransformer(
-        [('cat', categorical_encoder, categorical_columns),
-         ('num', numerical_pipe, numerical_columns)])
-    
-    
-    dict_model = {"Ada Boost Classifier":AdaBoostClassifier(),
-                "Extra Trees Classifier":ExtraTreesClassifier(),
-                "Gradient Boosting Classifier":GradientBoostingClassifier(),
-                "Random Forest Classifier":RandomForestClassifier(),
-                 }
-    
-    MODEL = st.sidebar.selectbox(label="Chose a model", options=list(dict_model), disabled=False, label_visibility="visible")
-
-    st.sidebar.divider()
-    
-    
-    # create the pipeline
-    rf = Pipeline([
-        ('preprocess', preprocessing),
-        ('classifier', dict_model[MODEL])
-    ])
-    
-    # fit the pipeline
-    rf.fit(X_train, y_train)
-
-    y_true = le.inverse_transform(y_test)
-    y_pred = le.inverse_transform(rf.predict(X_test))
-    
-    precision, recall, fscore, support = score(y_true, y_pred)
-   
-    data = {"Recall":recall,
-            "Precision":precision,
-            "F1 score":fscore
-            }
-        
-    st.sidebar.dataframe(pd.DataFrame(data=data,index=["High","Low"]).round(2).T)
-
-    # model()
     @st.cache_resource(experimental_allow_widgets=True)
-    def model(): 
+    def model():        
+        
+        low = df_model_class[df_model_class.price_class == 'low']
+        high = df_model_class[df_model_class.price_class == 'high']
+        high_oversampled = resample(high, replace=True, n_samples=len(low))
+        low_subsampled = resample(low, replace=False, n_samples=len(high))
+        oversampled = pd.concat([low, high_oversampled])
+        subsampled = pd.concat([high, low_subsampled])
+        
+        df_model_2 = oversampled.iloc[:,1:]
+        
+        X = df_model_2.iloc[:,:-1]
+    
+        le = LabelEncoder()
+        y = le.fit_transform(df_model_2.price_class)
+        
+        categorical_columns = df_model_2.select_dtypes('object').columns.tolist()
+        numerical_columns = df_model_2.select_dtypes('int64').columns.tolist()
+        
+        
+        X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y)
+        
+        # encode the categories
+        categorical_encoder = OneHotEncoder(handle_unknown='ignore')
+        
+        # fill NA values with mean and standardize.
+        numerical_pipe = Pipeline([
+            ('imputer', SimpleImputer(strategy='mean')),
+             ('standardizer' , StandardScaler())
+        ])
+        
+        # preprocessing
+        preprocessing = ColumnTransformer(
+            [('cat', categorical_encoder, categorical_columns),
+             ('num', numerical_pipe, numerical_columns)])
+        
+        
+        dict_model = {"Ada Boost Classifier":AdaBoostClassifier(),
+                    "Extra Trees Classifier":ExtraTreesClassifier(),
+                    "Gradient Boosting Classifier":GradientBoostingClassifier(),
+                    "Random Forest Classifier":RandomForestClassifier(),
+                     }
+        
+        MODEL = st.sidebar.selectbox(label="Chose a model", options=list(dict_model), disabled=False, label_visibility="visible")
+    
+        st.sidebar.divider()
+        
+        
+        # create the pipeline
+        rf = Pipeline([
+            ('preprocess', preprocessing),
+            ('classifier', dict_model[MODEL])
+        ])
+        
+        # fit the pipeline
+        rf.fit(X_train, y_train)
+    
+        y_true = le.inverse_transform(y_test)
+        y_pred = le.inverse_transform(rf.predict(X_test))
+        
+        precision, recall, fscore, support = score(y_true, y_pred)
+       
+        data = {"Recall":recall,
+                "Precision":precision,
+                "F1 score":fscore
+                }
+            
+        st.sidebar.dataframe(pd.DataFrame(data=data,index=["High","Low"]).round(2).T)
+    
         if st.button('Fit the model with new inputs to get the price class.'):
             st.sidebar.divider()
             AREA = st.sidebar.slider(label="Chose area", min_value=20, max_value=150, value=30, step=1)
@@ -203,8 +200,6 @@ if selecter == "Classification":
             if predict == 'low':
                 st.write(f"The predict class is {predict} which means tha the price will be LOWER than {round(df_model_class['Price'].mean())} euros")
 
-
-    
     model()
 
 #----------------------------------------------------------------
