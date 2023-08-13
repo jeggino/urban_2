@@ -185,9 +185,9 @@ if selecter == "Classification":
             
         st.sidebar.dataframe(pd.DataFrame(data=data,index=["High","Low"]).round(2).T)
 
-        return rf, le
+        return rf, le, st.sidebar.dataframe(pd.DataFrame(data=data,index=["High","Low"]).round(2).T)
 
-    rf, le = model()
+    rf, le, g = model()
     
     @st.cache_resource(experimental_allow_widgets=True)
     def predict():
