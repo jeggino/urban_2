@@ -82,7 +82,7 @@ with right_1:
         room  = df_model["Room"].quantile(SAMPLER)
         df_model_class = df_model[(df_model["Area"]<=area)&(df_model["Price"]<=price)&(df_model["Room"]<=room)]
         st.sidebar.markdown(f"The size of the new sample is {len(df_model_class)} on {len(df_model)}")
-        st.divider()
+        st.sidebar.divider()
         
         fig_2 = sns.pairplot(df_model_class[['Price', 'Area', 'Room']], diag_kind='auto',corner=True)
         
