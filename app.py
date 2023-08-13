@@ -201,9 +201,9 @@ if selecter == "Classification":
         predict = le.inverse_transform(rf.predict(df_predict))
     
         if predict == 'high':
-            return st.write(f"The predict class is HIGH which means tha the price will be HIGHER than {round(df_model_class['Price'].mean())} euros")
+            st.write(f"The predict class is HIGH which means tha the price will be HIGHER than {round(df_model_class['Price'].mean())} euros")
         elif predict == 'low':
-            return st.write(f"The predict class is LOW which means tha the price will be LOWER than {round(df_model_class['Price'].mean())} euros")
+            st.write(f"The predict class is LOW which means tha the price will be LOWER than {round(df_model_class['Price'].mean())} euros")
        
 
 
