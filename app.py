@@ -197,8 +197,9 @@ if selecter == "Classification":
         
             if predict == 'high':
                 st.write(f"The predict class is {predict} which means tha the price will be HIGHER than {round(df_model_class['Price'].mean())} euros")
-            if predict == 'low':
+            elif predict == 'low':
                 st.write(f"The predict class is {predict} which means tha the price will be LOWER than {round(df_model_class['Price'].mean())} euros")
+            st.stop()
 
     model()
 
