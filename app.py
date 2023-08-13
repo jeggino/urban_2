@@ -187,8 +187,8 @@ if selecter == "Classification":
 
         return rf, le
 
-    rf = model()[0]
-    le = model()[1]
+    rf, le = model()
+    
     
     if st.button('Fit the model with new inputs to get the price class.'):
         st.sidebar.divider()
