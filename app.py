@@ -4,6 +4,7 @@ import geopandas as gpd
 from shapely.geometry import Point
 import seaborn as sns
 from streamlit_option_menu import option_menu
+import pydeck as pdk
 
 
 
@@ -349,10 +350,8 @@ elif selecter == "Segmentation":
         
         tooltip={"text": "{Address}, {Zip} {City}"}
         
-        
-        # Render
         r = pdk.Deck(layers=[layer], 
-                     initial_view_state=view_state,
-                    tooltip=tooltip)
+             initial_view_state=view_state,
+            tooltip=tooltip)
 
         st.pydeck_chart(pydeck_obj=r, use_container_width=True)
