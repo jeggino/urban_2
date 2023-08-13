@@ -110,79 +110,78 @@ if selecter == "Classification":
     from sklearn.pipeline import Pipeline
     from sklearn.preprocessing import OneHotEncoder,StandardScaler,LabelEncoder
 
-    le = LabelEncoder()
     
-    @st.cache_resource(experimental_allow_widgets=True)
-    def model():        
+    # @st.cache_resource(experimental_allow_widgets=True)
+    # def model():        
         
-        low = df_model_class[df_model_class.price_class == 'low']
-        high = df_model_class[df_model_class.price_class == 'high']
-        high_oversampled = resample(high, replace=True, n_samples=len(low))
-        low_subsampled = resample(low, replace=False, n_samples=len(high))
-        oversampled = pd.concat([low, high_oversampled])
-        subsampled = pd.concat([high, low_subsampled])
-        
-        df_model_2 = oversampled.iloc[:,1:]
-        
-        X = df_model_2.iloc[:,:-1]
-        
-        y = le.fit_transform(df_model_2.price_class)
-        
-        categorical_columns = df_model_2.select_dtypes('object').columns.tolist()
-        numerical_columns = df_model_2.select_dtypes('int64').columns.tolist()
-        
-        
-        X_train, X_test, y_train, y_test = train_test_split(
-            X, y, stratify=y,)
-        
-        # encode the categories
-        categorical_encoder = OneHotEncoder(handle_unknown='ignore')
-        
-        # fill NA values with mean and standardize.
-        numerical_pipe = Pipeline([
-            ('imputer', SimpleImputer(strategy='mean')),
-             ('standardizer' , StandardScaler())
-        ])
-        
-        # preprocessing
-        preprocessing = ColumnTransformer(
-            [('cat', categorical_encoder, categorical_columns),
-             ('num', numerical_pipe, numerical_columns)])
-        
-        
-        dict_model = {"Ada Boost Classifier":AdaBoostClassifier(),
-                    "Extra Trees Classifier":ExtraTreesClassifier(),
-                    "Gradient Boosting Classifier":GradientBoostingClassifier(),
-                    "Random Forest Classifier":RandomForestClassifier(),
-                     }
-        
-        MODEL = st.sidebar.selectbox(label="Chose a model", options=list(dict_model), disabled=False, label_visibility="visible")
-        
-        
-        # create the pipeline
-        rf = Pipeline([
-            ('preprocess', preprocessing),
-            ('classifier', dict_model[MODEL])
-        ])
-        
-        # fit the pipeline
-        rf.fit(X_train, y_train)
-        
-        st.write(f"{MODEL} train accuracy: %0.3f" % rf.score(X_train, y_train))
-        st.write(f"{MODEL} test accuracy: %0.3f" % rf.score(X_test, y_test))
-        
-        
-        
-        y_true = le.inverse_transform(y_test)
-        y_pred = le.inverse_transform(rf.predict(X_test))
-        confusion_matrix = pd.crosstab(le.inverse_transform(y_test),
-                                       le.inverse_transform(rf.predict(X_test)),
-                                       rownames=['Actual'], colnames=['Predicted'],
-                                       normalize='index')
-        
-        st.dataframe(confusion_matrix)
+    low = df_model_class[df_model_class.price_class == 'low']
+    high = df_model_class[df_model_class.price_class == 'high']
+    high_oversampled = resample(high, replace=True, n_samples=len(low))
+    low_subsampled = resample(low, replace=False, n_samples=len(high))
+    oversampled = pd.concat([low, high_oversampled])
+    subsampled = pd.concat([high, low_subsampled])
+    
+    df_model_2 = oversampled.iloc[:,1:]
+    
+    X = df_model_2.iloc[:,:-1]
+    
+    y = le.fit_transform(df_model_2.price_class)
+    
+    categorical_columns = df_model_2.select_dtypes('object').columns.tolist()
+    numerical_columns = df_model_2.select_dtypes('int64').columns.tolist()
+    
+    
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, stratify=y,)
+    
+    # encode the categories
+    categorical_encoder = OneHotEncoder(handle_unknown='ignore')
+    
+    # fill NA values with mean and standardize.
+    numerical_pipe = Pipeline([
+        ('imputer', SimpleImputer(strategy='mean')),
+         ('standardizer' , StandardScaler())
+    ])
+    
+    # preprocessing
+    preprocessing = ColumnTransformer(
+        [('cat', categorical_encoder, categorical_columns),
+         ('num', numerical_pipe, numerical_columns)])
+    
+    
+    dict_model = {"Ada Boost Classifier":AdaBoostClassifier(),
+                "Extra Trees Classifier":ExtraTreesClassifier(),
+                "Gradient Boosting Classifier":GradientBoostingClassifier(),
+                "Random Forest Classifier":RandomForestClassifier(),
+                 }
+    
+    MODEL = st.sidebar.selectbox(label="Chose a model", options=list(dict_model), disabled=False, label_visibility="visible")
+    
+    
+    # create the pipeline
+    rf = Pipeline([
+        ('preprocess', preprocessing),
+        ('classifier', dict_model[MODEL])
+    ])
+    
+    # fit the pipeline
+    rf.fit(X_train, y_train)
+    
+    st.write(f"{MODEL} train accuracy: %0.3f" % rf.score(X_train, y_train))
+    st.write(f"{MODEL} test accuracy: %0.3f" % rf.score(X_test, y_test))
+    
+    
+    
+    y_true = le.inverse_transform(y_test)
+    y_pred = le.inverse_transform(rf.predict(X_test))
+    confusion_matrix = pd.crosstab(le.inverse_transform(y_test),
+                                   le.inverse_transform(rf.predict(X_test)),
+                                   rownames=['Actual'], colnames=['Predicted'],
+                                   normalize='index')
+    
+    st.dataframe(confusion_matrix)
 
-    model()
+    # model()
 
     AREA = st.slider(label="Chose area", min_value=20, max_value=150, value=30, step=1)
     ROOM = st.slider(label="Chose rooms", min_value=1, max_value=10, value=2, step=1)
