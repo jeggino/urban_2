@@ -136,8 +136,7 @@ if selecter == "Classification":
         numerical_columns = df_model_2.select_dtypes('int64').columns.tolist()
         
         
-        X_train, X_test, y_train, y_test = train_test_split(
-            X, y, stratify=y,)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y)
         
         # encode the categories
         categorical_encoder = OneHotEncoder(handle_unknown='ignore')
@@ -174,13 +173,12 @@ if selecter == "Classification":
         # fit the pipeline
         rf.fit(X_train, y_train)
 
-        return {"rf":rf,"X_test":X_test, "y_test":y_test, "y_true":y_true}
+        return {"rf":rf, "X_test":X_test, "y_test":y_test}
         
     le = LabelEncoder()
+    rf = model()["rf"]
     X_test = model()["X_test"]
     y_test = model()["y_test"]
-    y_true = model()["y_true"]
-
     
     y_true = le.inverse_transform(y_test)
     y_pred = le.inverse_transform(rf.predict(X_test))
