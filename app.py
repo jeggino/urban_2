@@ -175,28 +175,21 @@ if selecter == "Classification":
     
     # fit the pipeline
     rf.fit(X_train, y_train)
-
-        
-            
-    @st.cache_resource()
-    def predict_model():
-
         
 
-        y_true = le.inverse_transform(y_test)
-        y_pred = le.inverse_transform(rf.predict(X_test))
-        
-        precision, recall, fscore, support = score(y_true, y_pred)
-               
-        data = {"Recall":recall,
-                "Precision":precision,
-                "F1 score":fscore
-                }
-        
-        st.sidebar.markdown("Model metrics")
-        st.sidebar.dataframe(pd.DataFrame(data=data,index=["High","Low"]).round(2).T)
+    y_true = le.inverse_transform(y_test)
+    y_pred = le.inverse_transform(rf.predict(X_test))
     
-    predict_model()
+    precision, recall, fscore, support = score(y_true, y_pred)
+           
+    data = {"Recall":recall,
+            "Precision":precision,
+            "F1 score":fscore
+            }
+    
+    st.sidebar.markdown("Model metrics")
+    st.sidebar.dataframe(pd.DataFrame(data=data,index=["High","Low"]).round(2).T)
+    
     col1,col2,col3 = st.columns(3)
     
     AREA = col1.slider(label="Chose area", min_value=20, max_value=150, value=30, step=1)
