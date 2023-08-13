@@ -326,8 +326,11 @@ elif selecter == "Segmentation":
         df['City'] = df['Address'].str.split(",",n=1,expand=True)[1]
         df['Address'] = df['Address'].str.split(",",n=1,expand=True)[0]
 
-        RATIO_SCALE = st.sidebar.number_input(label=f"Ratio scale", min_value=0.1, max_value=30.0, value=1.0, step=0.1,  
-                                              disabled=False, label_visibility="visible")
+        RATIO_SCALE = st.number_input(label=f"Ratio scale", min_value=0.1, max_value=30.0, value=1.0, step=0.1)
+        GET_RATIO = st.selectbox(label="Select a variable", options=['Price', 'Area', 'Room'], disabled=False, label_visibility="visible")
+
+        if GET_RATIO == 'Price':
+            GET_RATIO == "Price/1000"
 
         # Define a layer to display on a map
         layer = pdk.Layer(
@@ -340,7 +343,7 @@ elif selecter == "Segmentation":
             radius_scale=RATIO_SCALE,
             line_width_min_pixels=1,
             get_position="geometry.coordinates",
-            get_radius="Price/1000",
+            get_radius=GET_RATIO,
             get_fill_color='color',
             get_line_color=[0, 0, 0],
         )
