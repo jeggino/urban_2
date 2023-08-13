@@ -184,21 +184,23 @@ if selecter == "Classification":
             "F1 score":fscore
             }
         
-    st.sidebar.dataframe(pd.DataFrame(data=data,index=["High","Low"]).round(2))
+    st.sidebar.dataframe(pd.DataFrame(data=data,index=["High","Low"]).round(2).T)
 
+    st.write("Fit the model with new inputs to get the price class.")
 
-    AREA = st.slider(label="Chose area", min_value=20, max_value=150, value=30, step=1)
-    ROOM = st.slider(label="Chose rooms", min_value=1, max_value=10, value=2, step=1)
-    GEBIED = st.selectbox(label="Chose neighbour", options=df_model_class.Gebied.unique(), disabled=False, label_visibility="visible")
+    if st.button('Fit the model with new inputs to get the price class.'):
+        AREA = st.sidebar.slider(label="Chose area", min_value=20, max_value=150, value=30, step=1)
+        ROOM = st.sidebar.slider(label="Chose rooms", min_value=1, max_value=10, value=2, step=1)
+        GEBIED = st.sidebar.selectbox(label="Chose neighbour", options=df_model_class.Gebied.unique(), disabled=False, label_visibility="visible")
+        
+        data = {'Area':AREA, 'Room':ROOM, 'Gebied':GEBIED}
+        df_predict = pd.DataFrame(data,index=range(1))
+        predict = le.inverse_transform(rf.predict(df_predict))
     
-    data = {'Area':AREA, 'Room':ROOM, 'Gebied':GEBIED}
-    df_predict = pd.DataFrame(data,index=range(1))
-    predict = le.inverse_transform(rf.predict(df_predict))
-
-    if predict == 'high':
-        st.write(f"The price will be higher than {round(df_model_class['Price'].mean())} euros")
-    if predict == 'low':
-        st.write(f"The price will be lower than {round(df_model_class['Price'].mean())} euros")
+        if predict == 'high':
+            st.write(f"The price will be higher than {round(df_model_class['Price'].mean())} euros")
+        if predict == 'low':
+            st.write(f"The price will be lower than {round(df_model_class['Price'].mean())} euros")
     
 
 #----------------------------------------------------------------
