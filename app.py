@@ -159,19 +159,25 @@ if selecter == "Classification":
                 "Random Forest Classifier":RandomForestClassifier(),
                  }
     
-    MODEL = st.sidebar.selectbox(label="Chose a model", options=list(dict_model), disabled=False, label_visibility="visible")
+   
+    
+    @st.cache_resource(experimental_allow_widgets=True)
+    def load_model():
+        MODEL = st.sidebar.selectbox(label="Chose a model", options=list(dict_model), disabled=False, label_visibility="visible")
 
-    st.sidebar.divider()
-    
-    
-    # create the pipeline
-    rf = Pipeline([
-        ('preprocess', preprocessing),
-        ('classifier', dict_model[MODEL])
-    ])
-    
-    # fit the pipeline
-    rf.fit(X_train, y_train)
+        st.sidebar.divider()
+        # create the pipeline
+        rf = Pipeline([
+            ('preprocess', preprocessing),
+            ('classifier', dict_model[MODEL])
+        ])
+        
+        # fit the pipeline
+        rf.fit(X_train, y_train)
+
+        return rf
+
+    rf = load_model()
 
     y_true = le.inverse_transform(y_test)
     y_pred = le.inverse_transform(rf.predict(X_test))
