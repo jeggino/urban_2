@@ -178,20 +178,21 @@ if selecter == "Classification":
         y_true = le.inverse_transform(y_test)
         y_pred = le.inverse_transform(rf.predict(X_test))
     
-        precision, recall, fscore, support = score(y_true, y_pred)
+        
+
+        return rf, y_true, y_pred
+        
+    rf, y_true, y_pred = load_model()
+
+    precision, recall, fscore, support = score(y_true, y_pred)
            
-        data = {"Recall":recall,
-                "Precision":precision,
-                "F1 score":fscore
-                }
-        
-        st.sidebar.markdown("Model metrics")
-        st.sidebar.dataframe(pd.DataFrame(data=data,index=["High","Low"]).round(2).T)
-
-        return rf
-        
-    rf = load_model()
-
+    data = {"Recall":recall,
+            "Precision":precision,
+            "F1 score":fscore
+            }
+    
+    st.sidebar.markdown("Model metrics")
+    st.sidebar.dataframe(pd.DataFrame(data=data,index=["High","Low"]).round(2).T)
     
 
     
