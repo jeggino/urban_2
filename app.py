@@ -264,7 +264,7 @@ elif selecter == "Segmentation":
     
     source = df_segmentation
     
-    base = alt.Chart(source).properties(width=80,height=300)
+    base = alt.Chart(source)
     
     Price = base.mark_boxplot().encode(
         x=alt.X('Clusters:N',title=None,axis=alt.Axis(values=[0], ticks=True, grid=False, labels=True)),
@@ -278,18 +278,15 @@ elif selecter == "Segmentation":
         color='Clusters:N'
     )
     
-    
-    Room = base.mark_bar().encode(
-        column='Clusters:O',
-        x=alt.X('Room:O'),
-        y=alt.Y('count()'),
-        color='Clusters:N'
+    source_2 = df_segmentation.groupby(["Clusters","Room"],as_index=False).size()
+
+    Room = alt.Chart(source_2).mark_bar().encode(
+        y=alt.Y('sum(size)', stack="normalize"),
+        x='Clusters:N',
+        color='Room:N'
     )
     
-    #--------------------
-    # cm = sns.light_palette("green", as_cmap=True)
-    # cluster_mean = df_segmentation.groupby('Clusters')[['Price','Area']].mean()
-    # st.dataframe(cluster_mean.style.background_gradient(cmap=cm).set_precision(1))
+    
     
     
     #--------------------
