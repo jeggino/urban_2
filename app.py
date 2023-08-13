@@ -110,7 +110,7 @@ if selecter == "Classification":
 
     CLASS_PRICE = st.sidebar.slider(label="Select the class range", min_value=df_model_class.describe().loc["25%","Price"], 
                                     max_value=df_model_class.describe().loc["75%","Price"], value=df_model_class.describe().loc["50%","Price"], 
-                                    step=1000)
+                                    step=1000.0)
     df_model_class['price_class'] = pd.cut(df_model_class.Price,
                                              bins=[df_model_class["Price"].min(),
                                                    CLASS_PRICE,
