@@ -180,11 +180,13 @@ if selecter == "Classification":
         
 
         return rf
-
+        
+    rf = load_model()
+    
     @st.cache_resource(experimental_allow_widgets=False)
     def predict_model():
 
-        rf = load_model()
+        
 
         y_true = le.inverse_transform(y_test)
         y_pred = le.inverse_transform(rf.predict(X_test))
@@ -200,7 +202,6 @@ if selecter == "Classification":
         st.sidebar.dataframe(pd.DataFrame(data=data,index=["High","Low"]).round(2).T)
     
     predict_model()
-    
     col1,col2,col3 = st.columns(3)
     
     AREA = col1.slider(label="Chose area", min_value=20, max_value=150, value=30, step=1)
