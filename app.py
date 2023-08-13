@@ -361,7 +361,7 @@ elif selecter == "Segmentation":
             )
 
             # Set the viewport location
-            view_state = pdk.ViewState(latitude=52.370978, longitude=4.899875, zoom=12, bearing=0, pitch=0)
+            view_state = pdk.ViewState(latitude=52.370978, longitude=4.899875, zoom=12, bearing=0, pitch=45)
             
             tooltip = {
                 "html": "<b>{count} properties",
