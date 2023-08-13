@@ -172,13 +172,12 @@ if selecter == "Classification":
         
         # fit the pipeline
         rf.fit(X_train, y_train)
-
-        return {"rf":rf, "X_test":X_test, "y_test":y_test}
         
-    le = LabelEncoder()
-    rf = model()["rf"]
-    X_test = model()["X_test"]
-    y_test = model()["y_test"]
+    # le = LabelEncoder()
+    # rf = model()["rf"]
+    # X_test = model()["X_test"]
+    # y_test = model()["y_test"]
+    model()
     
     y_true = le.inverse_transform(y_test)
     y_pred = le.inverse_transform(rf.predict(X_test))
