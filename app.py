@@ -126,9 +126,7 @@ if selecter == "Classification":
     low = df_model_class[df_model_class.price_class == 'low']
     high = df_model_class[df_model_class.price_class == 'high']
     high_oversampled = resample(high, replace=True, n_samples=len(low))
-    low_subsampled = resample(low, replace=False, n_samples=len(high))
     oversampled = pd.concat([low, high_oversampled])
-    subsampled = pd.concat([high, low_subsampled])
     
     df_model_2 = oversampled.iloc[:,1:]
     
