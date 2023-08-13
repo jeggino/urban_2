@@ -18,7 +18,7 @@ selecter = option_menu(None, ["Infos", "Classification", "Segmentation",], icons
                         menu_icon="cast", default_index=0, orientation="horizontal")
 
 #----------------------------------------------------------------
-@st.cache_data
+@st.cache_data(show_spinner="Loading the data")
 def get_data():
   url = "https://maps.amsterdam.nl/open_geodata/geojson_lnglat.php?KAARTLAAG=GEBIEDEN22&THEMA=gebiedsindeling"
   gdf_districts = gpd.read_file(url)
