@@ -175,26 +175,31 @@ if selecter == "Classification":
         rf.fit(X_train, y_train)
 
         
+        
+    
+        
+
+        return rf
+
+    @st.cache_resource(experimental_allow_widgets=False)
+    def predict_model():
+
+        rf = load_model()
+
         y_true = le.inverse_transform(y_test)
         y_pred = le.inverse_transform(rf.predict(X_test))
-    
         
-
-        return rf, y_true, y_pred
+        precision, recall, fscore, support = score(y_true, y_pred)
+               
+        data = {"Recall":recall,
+                "Precision":precision,
+                "F1 score":fscore
+                }
         
-    rf, y_true, y_pred = load_model()
-
-    precision, recall, fscore, support = score(y_true, y_pred)
-           
-    data = {"Recall":recall,
-            "Precision":precision,
-            "F1 score":fscore
-            }
+        st.sidebar.markdown("Model metrics")
+        st.sidebar.dataframe(pd.DataFrame(data=data,index=["High","Low"]).round(2).T)
     
-    st.sidebar.markdown("Model metrics")
-    st.sidebar.dataframe(pd.DataFrame(data=data,index=["High","Low"]).round(2).T)
-    
-
+    predict_model()
     
     col1,col2,col3 = st.columns(3)
     
