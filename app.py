@@ -160,11 +160,10 @@ if selecter == "Classification":
                  }
     
    
-    
+    MODEL = st.sidebar.selectbox(label="Chose a model", options=list(dict_model), disabled=False, label_visibility="visible")
     @st.cache_resource(experimental_allow_widgets=False)
     def load_model():
-        MODEL = st.sidebar.selectbox(label="Chose a model", options=list(dict_model), disabled=False, label_visibility="visible")
-
+        
         st.sidebar.divider()
         # create the pipeline
         rf = Pipeline([
