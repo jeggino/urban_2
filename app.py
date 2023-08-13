@@ -170,22 +170,16 @@ if selecter == "Classification":
     # fit the pipeline
     rf.fit(X_train, y_train)
     
-    st.write(f"{MODEL} train accuracy: %0.3f" % rf.score(X_train, y_train))
-    st.write(f"{MODEL} test accuracy: %0.3f" % rf.score(X_test, y_test))
-    
-    
     y_true = le.inverse_transform(y_test)
     y_pred = le.inverse_transform(rf.predict(X_test))
     
     precision, recall, fscore, support = score(y_true, y_pred)
-
-    
+   
     data = {"Recall":recall,
             "Precision":precision,
             "F1 score":fscore
             }
-    
-    
+        
     st.dataframe(pd.DataFrame(data=data,index=["High","Low"]).round(2))
 
 
