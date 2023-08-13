@@ -144,7 +144,7 @@ if selecter == "Classification":
         # fill NA values with mean and standardize.
         numerical_pipe = Pipeline([
             ('imputer', SimpleImputer(strategy='mean')),
-             ('standardizer' , StandardScaler())
+             ('standardizer', StandardScaler())
         ])
         
         # preprocessing
@@ -184,24 +184,26 @@ if selecter == "Classification":
                 }
             
         st.sidebar.dataframe(pd.DataFrame(data=data,index=["High","Low"]).round(2).T)
-    
-        if st.button('Fit the model with new inputs to get the price class.'):
-            st.sidebar.divider()
-            AREA = st.sidebar.slider(label="Chose area", min_value=20, max_value=150, value=30, step=1)
-            ROOM = st.sidebar.slider(label="Chose rooms", min_value=1, max_value=10, value=2, step=1)
-            GEBIED = st.sidebar.selectbox(label="Chose neighbour", options=df_model_class.Gebied.unique(), disabled=False, label_visibility="visible")
-            
-            data = {'Area':AREA, 'Room':ROOM, 'Gebied':GEBIED}
-            df_predict = pd.DataFrame(data,index=range(1))
-            predict = le.inverse_transform(rf.predict(df_predict))
-        
-            if predict == 'high':
-                st.write(f"The predict class is {predict} which means tha the price will be HIGHER than {round(df_model_class['Price'].mean())} euros")
-            elif predict == 'low':
-                st.write(f"The predict class is {predict} which means tha the price will be LOWER than {round(df_model_class['Price'].mean())} euros")
-            st.stop()
 
-    # model()
+        return rf
+
+    rf = model()
+    
+    if st.button('Fit the model with new inputs to get the price class.'):
+        st.sidebar.divider()
+        AREA = st.sidebar.slider(label="Chose area", min_value=20, max_value=150, value=30, step=1)
+        ROOM = st.sidebar.slider(label="Chose rooms", min_value=1, max_value=10, value=2, step=1)
+        GEBIED = st.sidebar.selectbox(label="Chose neighbour", options=df_model_class.Gebied.unique(), disabled=False, label_visibility="visible")
+        
+        data = {'Area':AREA, 'Room':ROOM, 'Gebied':GEBIED}
+        df_predict = pd.DataFrame(data,index=range(1))
+        predict = le.inverse_transform(rf.predict(df_predict))
+    
+        if predict == 'high':
+            st.write(f"The predict class is {predict} which means tha the price will be HIGHER than {round(df_model_class['Price'].mean())} euros")
+        elif predict == 'low':
+            st.write(f"The predict class is {predict} which means tha the price will be LOWER than {round(df_model_class['Price'].mean())} euros")
+
 
 #----------------------------------------------------------------
 elif selecter == "Segmentation":
