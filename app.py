@@ -53,8 +53,6 @@ if selecter == "Infos":
 
     st.image( "https://www.sinesolecinema.com/wp-content/uploads/2018/11/cropped-work-in-progress.png", caption=None, width=None, use_column_width=None, clamp=False, channels="RGB", output_format="auto")
 
-    # "https://www.sinesolecinema.com/wp-content/uploads/2018/11/cropped-work-in-progress.png"
-    # st.title("This is what it is")
     st.stop()
 
 
