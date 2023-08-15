@@ -7,6 +7,5 @@ matplotlib
 altair
 scikit-learn
 kneed
-folium
-streamlit-folium
+streamlit-player
 streamlit-option-menu
