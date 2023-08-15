@@ -112,7 +112,9 @@ if selecter == "Classification":
 
     from sklearn.metrics import precision_recall_fscore_support as score
 
-    CLASS_PRICE = st.slider(label="Select the class range", min_value=int(df_model_class.describe().loc["25%","Price"]), 
+    col1,col2 = st.columns([1,4)
+
+    CLASS_PRICE = col1.slider(label="Select the class range", min_value=int(df_model_class.describe().loc["25%","Price"]), 
                                     max_value=int(df_model_class.describe().loc["75%","Price"]), value=int(df_model_class.describe().loc["50%","Price"]), 
                                     step=1000)
     df_model_class['price_class'] = pd.cut(df_model_class.Price,
@@ -194,11 +196,11 @@ if selecter == "Classification":
     st.sidebar.markdown("Model metrics")
     st.sidebar.dataframe(pd.DataFrame(data=data,index=["High","Low"]).round(2).T)
     
-    col1,col2,col3 = st.columns(3)
+    
     
     AREA = col1.slider(label="Chose area", min_value=20, max_value=150, value=30, step=1)
-    ROOM = col2.slider(label="Chose rooms", min_value=1, max_value=10, value=2, step=1)
-    GEBIED = col3.selectbox(label="Chose neighbour", options=df_model_class.Gebied.unique(), disabled=False, label_visibility="visible")
+    ROOM = col1.slider(label="Chose rooms", min_value=1, max_value=10, value=2, step=1)
+    GEBIED = col1.selectbox(label="Chose neighbour", options=df_model_class.Gebied.unique(), disabled=False, label_visibility="visible")
     
     data = {'Area':AREA, 'Room':ROOM, 'Gebied':GEBIED}
     df_predict = pd.DataFrame(data,index=range(1))
@@ -206,9 +208,10 @@ if selecter == "Classification":
     predict = le.inverse_transform(rf.predict(df_predict))
 
     if predict == 'high':
-        st.title(" ⬆️ ")
+        col2.image( "https://purepng.com/public/uploads/medium/thumbs-up-lpx.png", caption=None, width=None, use_column_width=None, clamp=False, channels="RGB", output_format="auto")
+        
     elif predict == 'low':
-        st.title(" ⬇️ ")
+        col2.image( "https://media.istockphoto.com/id/174685030/photo/recession-chart.jpg?s=170667a&w=0&k=20&c=gBkfj3hmsff0hh727UjUms8s2uuBz6bMRknqjpGgEio=", caption=None, width=None, use_column_width=None, clamp=False, channels="RGB", output_format="auto")
        
 
 
