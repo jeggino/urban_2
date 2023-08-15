@@ -112,7 +112,7 @@ if selecter == "Classification":
 
     from sklearn.metrics import precision_recall_fscore_support as score
 
-    col1,col2 = st.columns([1,4)
+    col1,col2 = st.columns([1,4])
 
     CLASS_PRICE = col1.slider(label="Select the class range", min_value=int(df_model_class.describe().loc["25%","Price"]), 
                                     max_value=int(df_model_class.describe().loc["75%","Price"]), value=int(df_model_class.describe().loc["50%","Price"]), 
