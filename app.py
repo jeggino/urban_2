@@ -110,7 +110,7 @@ if selecter == "Classification":
 
     from sklearn.metrics import precision_recall_fscore_support as score
 
-    col1,col2 = st.columns([1,4])
+    col1,col2 = st.columns([2,4])
 
     CLASS_PRICE = col1.slider(label="Select the price", min_value=int(df_model_class.describe().loc["25%","Price"]), 
                                     max_value=int(df_model_class.describe().loc["75%","Price"]), value=int(df_model_class.describe().loc["50%","Price"]), 
@@ -206,10 +206,10 @@ if selecter == "Classification":
     predict = le.inverse_transform(rf.predict(df_predict))
 
     if predict == 'high':
-        col2.image( "https://purepng.com/public/uploads/medium/thumbs-up-lpx.png", caption=None, width=None, use_column_width=None, clamp=False, channels="RGB", output_format="auto")
+        col2.image( "https://th.bing.com/th/id/R.f2698a170e643bc3ee8964a9453a0b0b?rik=9pQvOpBLAM30Pw&riu=http%3a%2f%2fwww.clipartbest.com%2fcliparts%2fRTd%2f6z9%2fRTd6z9rRc.png&ehk=4ub9BMKBWN%2fwOZIq0RP4DJdH05paYdloeZFT4hNqB0E%3d&risl=&pid=ImgRaw&r=0", caption=None, width=None, use_column_width=True, clamp=False, channels="RGB", output_format="auto")
         
     elif predict == 'low':
-        col2.image( "https://media.istockphoto.com/id/174685030/photo/recession-chart.jpg?s=170667a&w=0&k=20&c=gBkfj3hmsff0hh727UjUms8s2uuBz6bMRknqjpGgEio=", caption=None, width=None, use_column_width=None, clamp=False, channels="RGB", output_format="auto")
+        col2.image( "https://media.istockphoto.com/id/174685030/photo/recession-chart.jpg?s=170667a&w=0&k=20&c=gBkfj3hmsff0hh727UjUms8s2uuBz6bMRknqjpGgEio=", caption=None, width=None, use_column_width=True, clamp=False, channels="RGB", output_format="auto")
        
 
 
