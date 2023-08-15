@@ -53,7 +53,7 @@ if selecter == "Infos":
     from streamlit_player import st_player
 
     # Embed a youtube video
-    st_player("https://youtu.be/CmSKVW1v0xM")
+    st_player("https://youtu.be/SQTQaE7-cpY")
 
     # st.image( "https://www.sinesolecinema.com/wp-content/uploads/2018/11/cropped-work-in-progress.png", caption=None, width=None, use_column_width=None, clamp=False, channels="RGB", output_format="auto")
 
